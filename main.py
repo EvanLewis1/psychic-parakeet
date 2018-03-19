@@ -14,7 +14,7 @@ MOVES = 'Moves'
 #if line 9 is find moves (parse.py (parse.input))
 #calculate moves (findMoves.py (findMoves()))
 if (option == MOVES):
-    findMoves.findMoves(boardState)
+    findMoves.printNumMoves(boardState)
 #Else
 else:
     findPath.findPath(boardState)
