@@ -1,0 +1,8 @@
+Find path:
+    Heuristics:
+    Number of black pieces on board
+    Number of black pieces with one white piece next to it
+    If neither can be improved:
+        Target one black piece
+        Find closest white piece and move it next to black, allowing for a piece to be placed
+        on the opposite side
