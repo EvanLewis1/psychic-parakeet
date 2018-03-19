@@ -2,7 +2,7 @@ import modules.parse as parse
 import modules.findMoves as findMoves
 import modules.findPath as findPath
 
-MOVES = 'moves'
+MOVES = 'Moves'
 
 #Main file for part a
 #Takes in text representing board state and option (Possible moves or path to victory)

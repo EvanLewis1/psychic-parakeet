@@ -8,4 +8,4 @@ def parse():
         boardState.append(row)
 
     option = input()
-    return (boardState, option)
+    return boardState, option
