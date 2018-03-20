@@ -8,7 +8,6 @@ def printNumMoves(boardState):
 
 def findMoves(boardState):
     moves = []
-    numMoves = ""
     newmoves, numWhiteMoves = possibleMoves(boardState, board.WHITE)
     moves = moves + newmoves
     newmoves, numBlackMoves = possibleMoves(boardState, board.BLACK)

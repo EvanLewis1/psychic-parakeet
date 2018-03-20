@@ -5,6 +5,11 @@ CORNER = "X"
 
 boardSize = 8
 
+class piece:
+    def piece(self, colour, pos, touchingOpposingPiece = False):
+        self.touchingOpposingPiece = touchingOpposingPiece
+        self.pos = pos
+        self.colour = colour
 
 def blackPiecesExist(boardState):
     for row in boardState:
@@ -12,3 +17,24 @@ def blackPiecesExist(boardState):
             if tile == BLACK:
                 return False
     return True
+
+def colourPiecesInfo(boardState, colour):
+
+    pieces = []
+    for row in range(0,boardSize):
+        for column in range(0,boardSize):
+            if boardState[row][column] == colour:
+                colourPiece = piece(colour, (row,column))
+                pieces.append(colourPiece)
+
+    return pieces
+
+
+def opposite(colour):
+    if colour == WHITE:
+        return BLACK
+    elif colour == BLACK:
+        return WHITE
+    else:
+        print("error: \'" + str(colour) + "\' not colour")
+
