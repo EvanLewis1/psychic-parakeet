@@ -1,5 +1,5 @@
 import modules.findMoves as findMoves
-from modules.models import  board
+from modules.models import board
 
 
 def printMassacrePath(boardState):
@@ -12,12 +12,11 @@ def printMassacrePath(boardState):
 
 
 def findPath(boardState):
-
     currentBoardState = boardState
 
     massacreMoves = []
 
-    while(board.blackPiecesExist(currentBoardState)):
+    while (board.blackPiecesExist(currentBoardState)):
         # Logic for next move
         nextMove = findNextMove(currentBoardState)
 
@@ -50,9 +49,9 @@ def findNextMove(boardState):
 
     return nextMove
 
-def applyMove(move, boardState):
 
-    newBoardState = boardState[:] #copy list
+def applyMove(move, boardState):
+    newBoardState = boardState[:]  # copy list
 
     # Get piece's colour
     colour = boardState[move[0][0], move[0][1]]
@@ -67,25 +66,27 @@ def applyMove(move, boardState):
 
     return newBoardState
 
+
 def wipeDeadPieces(boardState, whosTurn):
+    # Wipe opposing pieces (Before current turn's pieces!)
+    for colour in [board.opposite(whosTurn), whosTurn]:
+        for row in range(0, board.boardSize):
+            for column in range(0, board.boardSize):
+                if boardState[row][column] == colour:
+                    # if surrounded vertically
+                    if 0 < row < board.boardSize:
+                        if (boardState[row - 1][column] == board.opposite(colour) or boardState[row - 1][
+                            column] == board.CORNER) \
+                                and (boardState[row + 1][column] == board.opposite(colour) or boardState[row + 1][
+                            column] == board.CORNER):
+                            boardState[row][column] = board.EMPTY
 
-    #Wipe opposing pieces (Before current turn's pieces!)
-    for row in range(0,board.boardSize):
-        for column in range(0,board.boardSize):
-            if boardState[row][column] == board.opposite(whosTurn):
-                #if surrounded
-                if(False):
-                    boardState[row][column] = board.EMPTY
-
-    #Wipe current turn's pieces
-    for row in range(0,board.boardSize):
-        for column in range(0,board.boardSize):
-            if boardState[row][column] == whosTurn:
-                #if surrounded
-                if(False):
-                    boardState[row][column] = board.EMPTY
-
+                    # if surrounded horizontally
+                    if 0 < column < board.boardSize:
+                        if (boardState[row][column - 1] == board.opposite(colour) or (
+                                boardState[row][column - 1] == board.CORNER)) \
+                                and (boardState[row][column + 1] == board.opposite(colour) or boardState[row][
+                            column + 1] == board.CORNER):
+                            boardState[row][column] = board.EMPTY
 
     return boardState
-
-

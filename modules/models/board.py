@@ -1,3 +1,5 @@
+#Used to model the board of the game "backstab"
+
 BLACK = "@"
 WHITE = "O"
 EMPTY = "-"
