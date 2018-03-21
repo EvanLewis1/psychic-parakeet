@@ -12,7 +12,7 @@ def printMassacrePath(boardState):
 
 
 def findPath(boardState):
-    currentBoardState = boardState
+    currentBoardState = boardState[:] #copy list
 
     massacreMoves = []
 
@@ -36,15 +36,17 @@ def findNextMove(boardState):
     targetPieces = board.colourPiecesInfo(boardState, board.BLACK)
 
     # Find black piece to target
-    targetPiece = targetPieces[0]
+    targetPiece = targetPieces[0]  # Default target
     for piece in targetPieces:
         if piece.touchingOpposingPiece:
-            targetPiece = piece
+            targetPiece = piece  # Easier target
 
-    # Find closest white piece to use against target piece
+    # For all white pieces
+    # Search for path from white piece to target black piece
+    # Path to kill = point2PointPath(boardState, start (white piece's location), finish  (target piece's location))
+    # Keep track of shortest path
 
-    # Search for path from white piece to black piece
-
+    # next move = path to kill [0]
     # return first step in path
 
     return nextMove
@@ -62,12 +64,14 @@ def applyMove(move, boardState):
     # Add piece to destination
     newBoardState[move[1][0], move[1][1]] = colour
 
+    # Remove dead pieces
     newBoardState = wipeDeadPieces(newBoardState, colour)
 
     return newBoardState
 
 
 def wipeDeadPieces(boardState, whosTurn):
+
     # Wipe opposing pieces (Before current turn's pieces!)
     for colour in [board.opposite(whosTurn), whosTurn]:
         for row in range(0, board.boardSize):
@@ -79,7 +83,7 @@ def wipeDeadPieces(boardState, whosTurn):
                             column] == board.CORNER) \
                                 and (boardState[row + 1][column] == board.opposite(colour) or boardState[row + 1][
                             column] == board.CORNER):
-                            boardState[row][column] = board.EMPTY
+                            boardState[row][column] = board.EMPTY  # Remove
 
                     # if surrounded horizontally
                     if 0 < column < board.boardSize:
@@ -87,6 +91,14 @@ def wipeDeadPieces(boardState, whosTurn):
                                 boardState[row][column - 1] == board.CORNER)) \
                                 and (boardState[row][column + 1] == board.opposite(colour) or boardState[row][
                             column + 1] == board.CORNER):
-                            boardState[row][column] = board.EMPTY
+                            boardState[row][column] = board.EMPTY  # Remove
 
     return boardState
+
+
+def point2PointPath(boardState, start, finish):
+
+    # Find path from start to finish
+    # Return false if path is impossible
+    # Use some kind of search strategy
+    pass
