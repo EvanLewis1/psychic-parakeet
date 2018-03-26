@@ -6,3 +6,19 @@ Find path:
         Target one black piece
         Find closest white piece and move it next to black, allowing for a piece to be placed
         on the opposite side
+
+
+
+
+
+Path finding:
+    Add function onePiecePossibleMoves() to findMoves.py that finds the moves of one particular piece.
+
+    call this function in possibleMoves()
+
+    This function can also be used for path finding,
+        providing the possible moves (edges) from the white pieces to the target black piece.
+
+       Heuristic: distance ignoring obstacles (difference in rows + difference in columns)
+
+       https://www.redblobgames.com/pathfinding/a-star/implementation.html
