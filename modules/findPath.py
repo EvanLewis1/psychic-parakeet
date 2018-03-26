@@ -42,11 +42,22 @@ def findNextMove(boardState):
             targetPiece = piece  # Easier target
 
     # For all white pieces
+    attackingPieces = board.colourPiecesInfo(boardState, board.WHITE)
     # Search for path from white piece to target black piece
+    shortestPath = []
+    shortestPathLength = -1
+
+    for piece in attackingPieces:
+        numPieceMoves, possiblePieceMoves = point2PointPath(boardState, piece.pos, targetPiece.pos)
+        if shortestPath == -1 or numPieceMoves < shortestPathLength:
+            shortestPath = possiblePieceMoves
+            shortestPathLength = numPieceMoves
     # Path to kill = point2PointPath(boardState, start (white piece's location), finish  (target piece's location))
     # Keep track of shortest path
 
     # next move = path to kill [0]
+    nextMove = shortestPath[0]
+
     # return first step in path
 
     return nextMove
@@ -101,4 +112,6 @@ def point2PointPath(boardState, start, finish):
     # Find path from start to finish
     # Return false if path is impossible
     # Use some kind of search strategy
+
+    # Return numMoves, path
     pass
