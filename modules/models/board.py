@@ -8,7 +8,7 @@ CORNER = "X"
 boardSize = 8
 
 class piece:
-    def piece(self, colour, pos, touchingOpposingPiece = False):
+    def __init__(self, colour, pos, touchingOpposingPiece = False):
         self.touchingOpposingPiece = touchingOpposingPiece
         self.pos = pos
         self.colour = colour
