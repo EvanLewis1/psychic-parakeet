@@ -17,8 +17,8 @@ def blackPiecesExist(boardState):
     for row in boardState:
         for tile in row:
             if tile == BLACK:
-                return False
-    return True
+                return True
+    return False
 
 def colourPiecesInfo(boardState, colour):
 

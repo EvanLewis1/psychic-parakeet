@@ -1,5 +1,6 @@
 import modules.findMoves as findMoves
 from modules.models import board
+import heapq
 
 
 def printMassacrePath(boardState):
@@ -107,14 +108,56 @@ def wipeDeadPieces(boardState, whosTurn):
     return boardState
 
 
+class PriorityQueue:
+    #https: // www.redblobgames.com / pathfinding / a - star / implementation.html
+
+    def __init__(self):
+        self.elements = []
+
+    def empty(self):
+        return len(self.elements) == 0
+
+    def put(self, item, priority):
+        heapq.heappush(self.elements, (priority, item))
+
+    def get(self):
+        return heapq.heappop(self.elements)[1]
+
 def point2PointPath(boardState, start, finish):
 
     # Find path from start to finish
     # Return false if path is impossible
     # Use some kind of search strategy
 
-    # Return numMoves, path
-    pass
+    #https: // www.redblobgames.com / pathfinding / a - star / implementation.html
+
+    frontier = PriorityQueue()
+    frontier.put(start, 0)
+    came_from = {}
+    cost_so_far = {start: 0}
+
+    while not frontier.empty():
+        current = frontier.get()
+
+        if current == finish:
+            # Return numMoves, path
+
+            return came_from, cost_so_far
+
+        # Next nodes/directions
+        # Get finish position of all possible moves
+
+        nodes = [x[1] for x in findMoves.onePiecePossibleMoves(boardState, current)]
+
+        for next in nodes:
+            new_cost = cost_so_far[current] + 1
+            if next not in cost_so_far or new_cost < cost_so_far[next]:
+                cost_so_far[next] = new_cost
+                priority = new_cost + heuristic(current, next)
+                frontier.put(next, priority)
+                came_from[next] = current
+
+    return False
 
 #Heuristic - estimate of distance between two pieces
 # row diff + column diff
