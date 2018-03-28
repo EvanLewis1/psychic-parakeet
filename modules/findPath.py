@@ -48,11 +48,13 @@ def findNextMove(boardState):
     shortestPath = []
     shortestPathLength = -1
 
+
     for piece in attackingPieces:
-        numPieceMoves, possiblePieceMoves = point2PointPath(boardState, piece.pos, targetPiece.pos)
-        if shortestPath == -1 or numPieceMoves < shortestPathLength:
-            shortestPath = possiblePieceMoves
-            shortestPathLength = numPieceMoves
+        path = point2PointPath(boardState, piece.pos, targetPiece.pos)
+        if shortestPathLength == -1 or len(path) < shortestPathLength:
+            shortestPath = path
+            shortestPathLength = len(path)
+            attackingPiecePos = piece.pos
     # Path to kill = point2PointPath(boardState, start (white piece's location), finish  (target piece's location))
     # Keep track of shortest path
 
@@ -60,25 +62,26 @@ def findNextMove(boardState):
     nextMove = shortestPath[0]
 
     # return first step in path
-
-    return nextMove
+    return (attackingPiecePos, nextMove)
 
 
 def applyMove(move, boardState):
+    print("move" + str(move))
     newBoardState = boardState[:]  # copy list
 
     # Get piece's colour
-    colour = boardState[move[0][0], move[0][1]]
+    colour = boardState[move[0][0]][move[0][1]]
 
     # Remove piece from original position
-    newBoardState[move[0][0], move[0][1]] = board.EMPTY
+    newBoardState[move[0][0]][move[0][1]] = board.EMPTY
 
     # Add piece to destination
-    newBoardState[move[1][0], move[1][1]] = colour
+    newBoardState[move[1][0]][move[1][1]] = colour
 
     # Remove dead pieces
     newBoardState = wipeDeadPieces(newBoardState, colour)
 
+    board.printBoardState(boardState)
     return newBoardState
 
 
@@ -139,15 +142,22 @@ def point2PointPath(boardState, start, finish):
     while not frontier.empty():
         current = frontier.get()
 
-        if current == finish:
+        if adjacent(current, finish):
             # Return numMoves, path
+            node = current
+            path = [node]
 
-            return came_from, cost_so_far
+            while node in came_from:
+                path.append(came_from[node])
+                node = came_from[node]
+            path.reverse()
+            return path
 
         # Next nodes/directions
         # Get finish position of all possible moves
 
-        nodes = [x[1] for x in findMoves.onePiecePossibleMoves(boardState, current)]
+        possibleMoves,_ = findMoves.onePiecePossibleMoves(boardState, board.piece(board.WHITE, current))
+        nodes = [x[1] for x in possibleMoves]
 
         for next in nodes:
             new_cost = cost_so_far[current] + 1
@@ -156,7 +166,7 @@ def point2PointPath(boardState, start, finish):
                 priority = new_cost + heuristic(current, next)
                 frontier.put(next, priority)
                 came_from[next] = current
-
+    print("no path found")
     return False
 
 #Heuristic - estimate of distance between two pieces
@@ -164,3 +174,9 @@ def point2PointPath(boardState, start, finish):
 def heuristic(start, finish):
 
     return abs(start[0]-finish[0]) + abs(start[1]-finish[1])
+
+def adjacent(a,b):
+    if (abs(a[0] - b[0]) == 1 and abs(a[1] - b[1]) == 0) or ( abs(a[1] - b[1]) == 1 and abs(a[0] - b[0]) == 0):
+
+        return True
+    return False

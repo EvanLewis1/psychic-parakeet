@@ -40,3 +40,9 @@ def opposite(colour):
     else:
         print("error: \'" + str(colour) + "\' not colour")
 
+def printBoardState(boardState):
+    for row in boardState:
+        line = ""
+        for tile in row:
+            line = line + tile + " "
+        print(line)
