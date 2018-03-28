@@ -7,11 +7,18 @@ CORNER = "X"
 
 boardSize = 8
 
+UP = 0
+RIGHT = 1
+DOWN = 2
+LEFT = 3
+
+
+
 class piece:
     def __init__(self, colour, pos, touchingOpposingPiece = False):
-        self.touchingOpposingPiece = touchingOpposingPiece
         self.pos = pos
         self.colour = colour
+        self.touchingOpposingPiece = touchingOpposingPiece
 
 def blackPiecesExist(boardState):
     for row in boardState:
@@ -26,7 +33,30 @@ def colourPiecesInfo(boardState, colour):
     for row in range(0,boardSize):
         for column in range(0,boardSize):
             if boardState[row][column] == colour:
-                colourPiece = piece(colour, (row,column))
+
+                touchingOpposingPiece = False
+                adjacentTiles = [False,False,False,False]
+                if (row < boardSize):
+                    if (row + 1, column) == opposite(colour):
+                        touchingOpposingPiece = True
+                        adjacentTiles[DOWN] = True
+                if (row > 0):
+                    if (row - 1, column) == opposite(colour):
+                        touchingOpposingPiece = True
+                        adjacentTiles[UP] = True
+
+                if (column < boardSize):
+                    if (row, column + 1) == opposite(colour):
+                        touchingOpposingPiece = True
+                        adjacentTiles[RIGHT] = True
+
+                if (column > 0):
+                    if (row, column - 1) == opposite(colour):
+                        touchingOpposingPiece = True
+                        adjacentTiles[LEFT] = True
+
+
+                colourPiece = piece(colour, (row,column), touchingOpposingPiece)
                 pieces.append(colourPiece)
 
     return pieces

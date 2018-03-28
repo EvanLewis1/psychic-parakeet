@@ -50,16 +50,18 @@ def findNextMove(boardState):
 
 
     for piece in attackingPieces:
-        path = point2PointPath(boardState, piece.pos, targetPiece.pos)
-        if shortestPathLength == -1 or len(path) < shortestPathLength:
+        path = attackPath(boardState, piece.pos, targetPiece)
+        if (shortestPathLength == -1 or len(path) < shortestPathLength) and len(path) > 1:
             shortestPath = path
             shortestPathLength = len(path)
             attackingPiecePos = piece.pos
-    # Path to kill = point2PointPath(boardState, start (white piece's location), finish  (target piece's location))
+    # Path to kill = attackPath(boardState, start (white piece's location), finish  (target piece's location))
     # Keep track of shortest path
 
-    # next move = path to kill [0]
-    nextMove = shortestPath[0]
+
+    print("path" + str(shortestPath))
+    # next move = path to kill [1]
+    nextMove = shortestPath[1]
 
     # return first step in path
     return (attackingPiecePos, nextMove)
@@ -126,7 +128,9 @@ class PriorityQueue:
     def get(self):
         return heapq.heappop(self.elements)[1]
 
-def point2PointPath(boardState, start, finish):
+def attackPath(boardState, start, targetPiece):
+
+    finish = targetPiece.pos
 
     # Find path from start to finish
     # Return false if path is impossible
@@ -142,6 +146,7 @@ def point2PointPath(boardState, start, finish):
     while not frontier.empty():
         current = frontier.get()
 
+        #if targetPiece.touchingOpposingPiece and adjacent(current, finish):
         if adjacent(current, finish):
             # Return numMoves, path
             node = current
@@ -152,6 +157,7 @@ def point2PointPath(boardState, start, finish):
                 node = came_from[node]
             path.reverse()
             return path
+
 
         # Next nodes/directions
         # Get finish position of all possible moves
@@ -166,7 +172,7 @@ def point2PointPath(boardState, start, finish):
                 priority = new_cost + heuristic(current, next)
                 frontier.put(next, priority)
                 came_from[next] = current
-    print("no path found")
+    print("no path found from " + str(start) + " to " + str(finish))
     return False
 
 #Heuristic - estimate of distance between two pieces
