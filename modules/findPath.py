@@ -46,7 +46,7 @@ def findNextMove(boardState):
     # Find black piece to target
     targetPiece = targetPieces[0]  # Default target
     for piece in targetPieces:
-        if piece.touchingOpposingPiece(boardState):
+        if piece.inDanger(boardState):
             targetPiece = piece  # Easier target
 
     # For all white pieces
@@ -158,9 +158,9 @@ def attackPath(boardState, start, targetPiece):
     while not frontier.empty():
         current = frontier.get()
 
-        #if targetPiece.touchingOpposingPiece and adjacent(current, finish):
+        #if targetPiece.inDanger and adjacent(current, finish):
         if targetPiece.adjacent(current):
-            if not targetPiece.touchingOpposingPiece(boardState) or targetPiece.isLethal(current, applyMove((start,current), boardState)):
+            if not targetPiece.inDanger(boardState) or targetPiece.isLethal(current, applyMove((start,current), boardState)):
                 # Return numMoves, path
                 node = current
                 path = [node]

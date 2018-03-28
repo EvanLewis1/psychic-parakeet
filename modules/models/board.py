@@ -27,22 +27,22 @@ class piece:
             return True
         return False
 
-    def touchingOpposingPiece(self, boardState):
+    def inDanger(self, boardState):
         row = self.pos[0]
         column = self.pos[1]
         if (row < boardSize - 1):
-            if boardState[row + 1][column] == opposite(self.colour):
+            if boardState[row + 1][column] == opposite(self.colour) or boardState[row + 1][column] == CORNER:
                 return True
         if (row > 0):
-            if boardState[row - 1][column] == opposite(self.colour):
+            if boardState[row - 1][column] == opposite(self.colour) or boardState[row - 1][column] == CORNER:
                 return  True
 
         if (column < boardSize - 1):
-            if boardState[row][column + 1] == opposite(self.colour):
+            if boardState[row][column + 1] == opposite(self.colour) or boardState[row][column + 1] == CORNER:
                 return  True
 
         if (column > 0):
-            if boardState[row][column - 1] == opposite(self.colour):
+            if boardState[row][column - 1] == opposite(self.colour) or boardState[row][column - 1] == CORNER:
                 return  True
         return False
 
@@ -53,18 +53,18 @@ class piece:
 
         adjacentTiles = [False,False,False,False]
         if (row < boardSize - 1):
-            if boardState[row + 1][column] == opposite(self.colour):
+            if boardState[row + 1][column] == opposite(self.colour) or boardState[row + 1][column] == CORNER:
                 adjacentTiles[DOWN] = True
         if (row > 0):
-            if boardState[row - 1][column] == opposite(self.colour):
+            if boardState[row - 1][column] == opposite(self.colour) or boardState[row - 1][column] == CORNER:
                 adjacentTiles[UP] = True
 
         if (column < boardSize - 1):
-            if boardState[row][column + 1] == opposite(self.colour):
+            if boardState[row][column + 1] == opposite(self.colour) or boardState[row][column + 1] == CORNER:
                 adjacentTiles[RIGHT] = True
 
         if (column > 0):
-            if boardState[row][column - 1] == opposite(self.colour):
+            if boardState[row][column - 1] == opposite(self.colour) or boardState[row][column - 1] == CORNER:
                 adjacentTiles[LEFT] = True
 
         return adjacentTiles
