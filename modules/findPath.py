@@ -51,7 +51,7 @@ def findNextMove(boardState):
 
     for piece in attackingPieces:
         path = attackPath(boardState, piece.pos, targetPiece)
-        if (shortestPathLength == -1 or len(path) < shortestPathLength) and len(path) > 1:
+        if (shortestPathLength == -1 or len(path) < shortestPathLength) and not targetPiece.adjacent(piece.pos):
             shortestPath = path
             shortestPathLength = len(path)
             attackingPiecePos = piece.pos
@@ -147,16 +147,20 @@ def attackPath(boardState, start, targetPiece):
         current = frontier.get()
 
         #if targetPiece.touchingOpposingPiece and adjacent(current, finish):
-        if adjacent(current, finish):
-            # Return numMoves, path
-            node = current
-            path = [node]
+        if targetPiece.adjacent(current):
+            print("HERE")
+            print(targetPiece.touchingOpposingPiece)
+            print(targetPiece.isLethal(current))
+            if not targetPiece.touchingOpposingPiece or targetPiece.isLethal(current):
+                # Return numMoves, path
+                node = current
+                path = [node]
 
-            while node in came_from:
-                path.append(came_from[node])
-                node = came_from[node]
-            path.reverse()
-            return path
+                while node in came_from:
+                    path.append(came_from[node])
+                    node = came_from[node]
+                path.reverse()
+                return path
 
 
         # Next nodes/directions
@@ -181,8 +185,3 @@ def heuristic(start, finish):
 
     return abs(start[0]-finish[0]) + abs(start[1]-finish[1])
 
-def adjacent(a,b):
-    if (abs(a[0] - b[0]) == 1 and abs(a[1] - b[1]) == 0) or ( abs(a[1] - b[1]) == 1 and abs(a[0] - b[0]) == 0):
-
-        return True
-    return False
