@@ -14,6 +14,8 @@ Find path:
 Path finding:
     Add function onePiecePossibleMoves() to findMoves.py that finds the moves of one particular piece.
 
+    Use A-star algorithm
+
     call this function in possibleMoves()
 
     This function can also be used for path finding,

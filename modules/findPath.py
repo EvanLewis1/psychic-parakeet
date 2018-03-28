@@ -115,3 +115,9 @@ def point2PointPath(boardState, start, finish):
 
     # Return numMoves, path
     pass
+
+#Heuristic - estimate of distance between two pieces
+# row diff + column diff
+def heuristic(start, finish):
+
+    return abs(start[0]-finish[0]) + abs(start[1]-finish[1])
