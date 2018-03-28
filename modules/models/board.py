@@ -15,30 +15,72 @@ LEFT = 3
 
 
 class piece:
-    def __init__(self, colour, pos, touchingOpposingPiece = False, adjacentTiles = [False,False,False,False]):
+    def __init__(self, colour, pos):
         self.pos = pos
         self.colour = colour
-        self.touchingOpposingPiece = touchingOpposingPiece
-        self.adjacentTiles = adjacentTiles
+        #self.touchingOpposingPiece = touchingOpposingPiece
+        #self.adjacentTiles = adjacentTiles
 
 
     def adjacent(self, pos):
         if (abs(self.pos[0] - pos[0]) == 1 and abs(self.pos[1] - pos[1]) == 0) or (abs(self.pos[1] - pos[1]) == 1 and abs(self.pos[0] - pos[0]) == 0):
             return True
         return False
-    
-    def isLethal(self, pos):
+
+    def touchingOpposingPiece(self, boardState):
+        row = self.pos[0]
+        column = self.pos[1]
+        if (row < boardSize - 1):
+            if boardState[row + 1][column] == opposite(self.colour):
+                return True
+        if (row > 0):
+            if boardState[row - 1][column] == opposite(self.colour):
+                return  True
+
+        if (column < boardSize - 1):
+            if boardState[row][column + 1] == opposite(self.colour):
+                return  True
+
+        if (column > 0):
+            if boardState[row][column - 1] == opposite(self.colour):
+                return  True
+        return False
+
+
+    def adjacentTiles(self, boardState):
+        row = self.pos[0]
+        column = self.pos[1]
+
+        adjacentTiles = [False,False,False,False]
+        if (row < boardSize - 1):
+            if boardState[row + 1][column] == opposite(self.colour):
+                adjacentTiles[DOWN] = True
+        if (row > 0):
+            if boardState[row - 1][column] == opposite(self.colour):
+                adjacentTiles[UP] = True
+
+        if (column < boardSize - 1):
+            if boardState[row][column + 1] == opposite(self.colour):
+                adjacentTiles[RIGHT] = True
+
+        if (column > 0):
+            if boardState[row][column - 1] == opposite(self.colour):
+                adjacentTiles[LEFT] = True
+
+        return adjacentTiles
+
+    def isLethal(self, pos, boardState):
         if self.pos[0] - pos[0] == 1 and self.pos[1] - pos[1] == 0:
-            return self.adjacentTiles[DOWN]
+            return self.adjacentTiles(boardState)[DOWN]
 
         if self.pos[0] - pos[0] == -1 and self.pos[1] - pos[1] == 0:
-            return self.adjacentTiles[UP]
+            return self.adjacentTiles(boardState)[UP]
 
         if self.pos[0] - pos[0] == 0 and self.pos[1] - pos[1] == 1:
-            return self.adjacentTiles[RIGHT]
+            return self.adjacentTiles(boardState)[RIGHT]
 
         if self.pos[0] - pos[0] == 0 and self.pos[1] - pos[1] == -1:
-            return self.adjacentTiles[LEFT]
+            return self.adjacentTiles(boardState)[LEFT]
 
         print("Error: not adjacent")
         return False
@@ -60,9 +102,9 @@ def colourPiecesInfo(boardState, colour):
         for column in range(0,boardSize):
             if boardState[row][column] == colour:
 
-                touchingOpposingPiece = False
+                '''touchingOpposingPiece = False
                 adjacentTiles = [False,False,False,False]
-                if (row < boardSize):
+                if (row < boardSize-1):
                     if boardState[row + 1][column] == opposite(colour):
                         touchingOpposingPiece = True
                         adjacentTiles[DOWN] = True
@@ -71,7 +113,7 @@ def colourPiecesInfo(boardState, colour):
                         touchingOpposingPiece = True
                         adjacentTiles[UP] = True
 
-                if (column < boardSize):
+                if (column < boardSize-1):
                     if boardState[row][ column + 1] == opposite(colour):
                         touchingOpposingPiece = True
                         adjacentTiles[RIGHT] = True
@@ -79,10 +121,10 @@ def colourPiecesInfo(boardState, colour):
                 if (column > 0):
                     if boardState[row] [column - 1] == opposite(colour):
                         touchingOpposingPiece = True
-                        adjacentTiles[LEFT] = True
+                        adjacentTiles[LEFT] = True'''
 
 
-                colourPiece = piece(colour, (row,column), touchingOpposingPiece, adjacentTiles)
+                colourPiece = piece(colour, (row,column))
                 pieces.append(colourPiece)
 
     return pieces

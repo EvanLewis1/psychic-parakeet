@@ -13,7 +13,13 @@ def printMassacrePath(boardState):
 
 
 def findPath(boardState):
-    currentBoardState = boardState[:] #copy list
+    currentBoardState = []
+    for line in boardState:
+        newline = []
+        for tile in line:
+            newline.append(tile)
+        currentBoardState.append(newline)
+    # copy list
 
     massacreMoves = []
 
@@ -22,8 +28,9 @@ def findPath(boardState):
         nextMove = findNextMove(currentBoardState)
 
         massacreMoves.append(nextMove)
-
+        print("move" + str(nextMove))
         currentBoardState = applyMove(nextMove, currentBoardState)
+        board.printBoardState(currentBoardState)
 
         # continue loop
 
@@ -39,7 +46,7 @@ def findNextMove(boardState):
     # Find black piece to target
     targetPiece = targetPieces[0]  # Default target
     for piece in targetPieces:
-        if piece.touchingOpposingPiece:
+        if piece.touchingOpposingPiece(boardState):
             targetPiece = piece  # Easier target
 
     # For all white pieces
@@ -48,13 +55,14 @@ def findNextMove(boardState):
     shortestPath = []
     shortestPathLength = -1
 
-
     for piece in attackingPieces:
+
         path = attackPath(boardState, piece.pos, targetPiece)
-        if (shortestPathLength == -1 or len(path) < shortestPathLength) and not targetPiece.adjacent(piece.pos):
-            shortestPath = path
-            shortestPathLength = len(path)
-            attackingPiecePos = piece.pos
+        if path:
+            if (shortestPathLength == -1 or len(path) < shortestPathLength) and len(path) > 1:
+                shortestPath = path
+                shortestPathLength = len(path)
+                attackingPiecePos = piece.pos
     # Path to kill = attackPath(boardState, start (white piece's location), finish  (target piece's location))
     # Keep track of shortest path
 
@@ -68,12 +76,18 @@ def findNextMove(boardState):
 
 
 def applyMove(move, boardState):
-    print("move" + str(move))
-    newBoardState = boardState[:]  # copy list
+
+
+    newBoardState = []
+    for line in boardState:
+        newline = []
+        for tile in line:
+            newline.append(tile)
+        newBoardState.append(newline)
+    # copy list
 
     # Get piece's colour
-    colour = boardState[move[0][0]][move[0][1]]
-
+    colour = newBoardState[move[0][0]][move[0][1]]
     # Remove piece from original position
     newBoardState[move[0][0]][move[0][1]] = board.EMPTY
 
@@ -83,12 +97,10 @@ def applyMove(move, boardState):
     # Remove dead pieces
     newBoardState = wipeDeadPieces(newBoardState, colour)
 
-    board.printBoardState(boardState)
     return newBoardState
 
 
 def wipeDeadPieces(boardState, whosTurn):
-
     # Wipe opposing pieces (Before current turn's pieces!)
     for colour in [board.opposite(whosTurn), whosTurn]:
         for row in range(0, board.boardSize):
@@ -148,10 +160,7 @@ def attackPath(boardState, start, targetPiece):
 
         #if targetPiece.touchingOpposingPiece and adjacent(current, finish):
         if targetPiece.adjacent(current):
-            print("HERE")
-            print(targetPiece.touchingOpposingPiece)
-            print(targetPiece.isLethal(current))
-            if not targetPiece.touchingOpposingPiece or targetPiece.isLethal(current):
+            if not targetPiece.touchingOpposingPiece(boardState) or targetPiece.isLethal(current, applyMove((start,current), boardState)):
                 # Return numMoves, path
                 node = current
                 path = [node]
@@ -160,8 +169,8 @@ def attackPath(boardState, start, targetPiece):
                     path.append(came_from[node])
                     node = came_from[node]
                 path.reverse()
-                return path
 
+                return path
 
         # Next nodes/directions
         # Get finish position of all possible moves
