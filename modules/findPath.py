@@ -107,7 +107,7 @@ def wipeDeadPieces(boardState, whosTurn):
             for column in range(0, board.boardSize):
                 if boardState[row][column] == colour:
                     # if surrounded vertically
-                    if 0 < row < board.boardSize:
+                    if 0 < row < board.boardSize-1:
                         if (boardState[row - 1][column] == board.opposite(colour) or boardState[row - 1][
                             column] == board.CORNER) \
                                 and (boardState[row + 1][column] == board.opposite(colour) or boardState[row + 1][
@@ -115,7 +115,7 @@ def wipeDeadPieces(boardState, whosTurn):
                             boardState[row][column] = board.EMPTY  # Remove
 
                     # if surrounded horizontally
-                    if 0 < column < board.boardSize:
+                    if 0 < column < board.boardSize-1:
                         if (boardState[row][column - 1] == board.opposite(colour) or (
                                 boardState[row][column - 1] == board.CORNER)) \
                                 and (boardState[row][column + 1] == board.opposite(colour) or boardState[row][
