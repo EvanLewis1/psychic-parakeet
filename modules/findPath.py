@@ -7,7 +7,7 @@ def printMassacrePath(boardState):
     path = findPath(boardState)
     pathString = ""
     for move in path:
-        pathString = pathString + str(move)
+        pathString = pathString + str(move[0]) + " -> " + str(move[1]) + "\n"
 
     print(pathString)
 
