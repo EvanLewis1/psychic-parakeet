@@ -2,6 +2,8 @@ import modules.findMoves as findMoves
 from modules.models import board
 import heapq
 
+#If true, print steps in logic including board state for each step, path plans and failed paths
+PRINTPROCESS = False
 
 def printMassacrePath(boardState):
     path = findPath(boardState)
@@ -28,9 +30,11 @@ def findPath(boardState):
         nextMove = findNextMove(currentBoardState)
 
         massacreMoves.append(nextMove)
-        print("move" + str(nextMove))
+        if PRINTPROCESS:
+            print("move" + str(nextMove))
         currentBoardState = applyMove(nextMove, currentBoardState)
-        board.printBoardState(currentBoardState)
+        if PRINTPROCESS:
+            board.printBoardState(currentBoardState)
 
         # continue loop
 
@@ -66,8 +70,8 @@ def findNextMove(boardState):
     # Path to kill = attackPath(boardState, start (white piece's location), finish  (target piece's location))
     # Keep track of shortest path
 
-
-    print("path" + str(shortestPath))
+    if PRINTPROCESS:
+        print("path" + str(shortestPath))
     # next move = path to kill [1]
     nextMove = shortestPath[1]
 
@@ -185,7 +189,8 @@ def attackPath(boardState, start, targetPiece):
                 priority = new_cost + heuristic(current, next)
                 frontier.put(next, priority)
                 came_from[next] = current
-    print("no path found from " + str(start) + " to " + str(finish))
+    if PRINTPROCESS:
+        print("no path found from " + str(start) + " to " + str(finish))
     return False
 
 #Heuristic - estimate of distance between two pieces

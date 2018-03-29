@@ -14,7 +14,7 @@ MASSACRE = 'Massacre'
 
 
 #read input
-(boardState, option)= parse.parse()
+(boardState, option) = parse.parse()
 
 #if line 9 is find moves (parse.py (parse.input))
 if (option == MOVES):

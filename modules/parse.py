@@ -1,3 +1,5 @@
+# Parses input and returns board state and option (massacre or move)
+
 def parse():
 
     boardState = []
