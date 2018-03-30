@@ -6,3 +6,54 @@ Evan Lewis
 
 
 Comments
+
+For calculating the number of available moves, what is the time complexity and space
+complexity of your program? You should not count the time taken to read the board
+configuration from input.
+
+n = number of pieces
+
+Logic of program:
+    Loop through all pieces
+        loop through four directions and 2 move types (1 tile move and 2 tile jump move) = 8 total options
+8 * n comparisons
+
+O(n) time (O(1) if you consider that n < 64)
+
+Our findMoves function saves all the possible moves (to use in findpath())
+
+n = number of moves
+max number of moves = 4
+
+8 * n moves
+
+O(n) space (O(1) if you consider that n < 64)
+
+
+
+• For calculating the sequence of moves to eliminate all enemy pieces, how have you
+modelled the problem as a search problem? What search algorithm does your
+program use? If applicable, what is the branching factor of your search tree? What is
+the maximum search depth? Does your algorithm always return the shortest possible
+sequence of moves that will eliminate all enemy pieces?
+
+Our program
+- chooses a target enemy piece (prioritises enemy pieces already touching one of ours)
+- uses the a * algorithm to find the distance from each of our pieces to a position next to the target piece
+- Moves the piece with the shortest path one step along its path
+- Loops until all enemy pieces are gone
+
+The nodes are the tiles of the board
+The edges are all possible and safe (doesn't go between two enemy pieces/corner) moves
+The heuristic estimate of a path is the distance ignoring any obstacles i.e. the row difference plus the column difference
+
+A * inherits from djiskstra's algorithm the aspect of never backtracking as it never makes the path shorter
+(assuming no negative cost edges which there aren't)
+So the maximum search depth can't be more than the number of nodes : 64 and is realistically much less.
+
+There can only be a max of 4 edges, one for each direction.
+
+As our program models only the moves of individual pieces as a search problem and not every piece's possible moves it
+could fail at finding a solution when one exists.
+However it is much more likely to reach an answer in a reasonable amount of time as the search depth is limited and
+fails only in niche cases.

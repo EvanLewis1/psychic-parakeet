@@ -47,33 +47,36 @@ def findNextMove(boardState):
     numMoves, possibleMoves = findMoves.findMoves(boardState)
     targetPieces = board.colourPiecesInfo(boardState, board.BLACK)
 
+    prioritisedTargetPieces = [piece for piece in targetPieces if piece.inDanger(boardState)]
+    prioritisedTargetPieces = prioritisedTargetPieces + [piece for piece in targetPieces if not piece.inDanger(boardState)]
+
     # Find black piece to target
-    targetPiece = targetPieces[0]  # Default target
-    for piece in targetPieces:
-        if piece.inDanger(boardState):
-            targetPiece = piece  # Easier target
+    for targetPiece in prioritisedTargetPieces:
 
-    # For all white pieces
-    attackingPieces = board.colourPiecesInfo(boardState, board.WHITE)
-    # Search for path from white piece to target black piece
-    shortestPath = []
-    shortestPathLength = -1
+        # For all white pieces
+        attackingPieces = board.colourPiecesInfo(boardState, board.WHITE)
+        # Search for path from white piece to target black piece
+        shortestPath = []
+        shortestPathLength = -1
 
-    for piece in attackingPieces:
+        for piece in attackingPieces:
 
-        path = attackPath(boardState, piece.pos, targetPiece)
-        if path:
-            if (shortestPathLength == -1 or len(path) < shortestPathLength) and len(path) > 1:
-                shortestPath = path
-                shortestPathLength = len(path)
-                attackingPiecePos = piece.pos
-    # Path to kill = attackPath(boardState, start (white piece's location), finish  (target piece's location))
-    # Keep track of shortest path
+            path = attackPath(boardState, piece, targetPiece)
+            if path:
+                if (shortestPathLength == -1 or len(path) < shortestPathLength) and len(path) > 1:
+                    shortestPath = path
+                    shortestPathLength = len(path)
+                    attackingPiecePos = piece.pos
+        # Path to kill = attackPath(boardState, start (white piece's location), finish  (target piece's location))
+        # Keep track of shortest path
 
-    if PRINTPROCESS:
-        print("path" + str(shortestPath))
-    # next move = path to kill [1]
-    nextMove = shortestPath[1]
+        if PRINTPROCESS:
+            print("path" + str(shortestPath))
+
+
+        if len(shortestPath) > 1:
+            nextMove = shortestPath[1]
+            break
 
     # return first step in path
     return (attackingPiecePos, nextMove)
@@ -115,7 +118,7 @@ def wipeDeadPieces(boardState, whosTurn):
                         if (boardState[row - 1][column] == board.opposite(colour) or boardState[row - 1][
                             column] == board.CORNER) \
                                 and (boardState[row + 1][column] == board.opposite(colour) or boardState[row + 1][
-                            column] == board.CORNER):
+                                column] == board.CORNER):
                             boardState[row][column] = board.EMPTY  # Remove
 
                     # if surrounded horizontally
@@ -123,14 +126,15 @@ def wipeDeadPieces(boardState, whosTurn):
                         if (boardState[row][column - 1] == board.opposite(colour) or (
                                 boardState[row][column - 1] == board.CORNER)) \
                                 and (boardState[row][column + 1] == board.opposite(colour) or boardState[row][
-                            column + 1] == board.CORNER):
+                                column + 1] == board.CORNER):
                             boardState[row][column] = board.EMPTY  # Remove
 
     return boardState
 
 
 class PriorityQueue:
-    #https: // www.redblobgames.com / pathfinding / a - star / implementation.html
+    # Taken from
+    # https: // www.redblobgames.com / pathfinding / a - star / implementation.html
 
     def __init__(self):
         self.elements = []
@@ -144,15 +148,16 @@ class PriorityQueue:
     def get(self):
         return heapq.heappop(self.elements)[1]
 
-def attackPath(boardState, start, targetPiece):
-
+def attackPath(boardState, attackingPiece, targetPiece):
+    start = attackingPiece.pos
     finish = targetPiece.pos
 
     # Find path from start to finish
     # Return false if path is impossible
     # Use some kind of search strategy
 
-    #https: // www.redblobgames.com / pathfinding / a - star / implementation.html
+    # Based on a* structure from
+    # https: // www.redblobgames.com / pathfinding / a - star / implementation.html
 
     frontier = PriorityQueue()
     frontier.put(start, 0)
@@ -162,9 +167,9 @@ def attackPath(boardState, start, targetPiece):
     while not frontier.empty():
         current = frontier.get()
 
-        #if targetPiece.inDanger and adjacent(current, finish):
+        # if targetPiece.inDanger and adjacent(current, finish):
         if targetPiece.adjacent(current):
-            if not targetPiece.inDanger(boardState) or targetPiece.isLethal(current, applyMove((start,current), boardState)):
+            if not targetPiece.inDanger(boardState) or targetPiece.isLethal(current, applyMove((start, current), boardState)):
                 # Return numMoves, path
                 node = current
                 path = [node]
@@ -180,7 +185,8 @@ def attackPath(boardState, start, targetPiece):
         # Get finish position of all possible moves
 
         possibleMoves,_ = findMoves.onePiecePossibleMoves(boardState, board.piece(board.WHITE, current))
-        nodes = [x[1] for x in possibleMoves]
+        safeMoves = [move for move in possibleMoves if len(board.colourPiecesInfo(boardState, board.WHITE)) == len(board.colourPiecesInfo(applyMove((start, move[1]),  boardState), board.WHITE))]
+        nodes = [x[1] for x in safeMoves]
 
         for next in nodes:
             new_cost = cost_so_far[current] + 1
@@ -189,11 +195,13 @@ def attackPath(boardState, start, targetPiece):
                 priority = new_cost + heuristic(current, next)
                 frontier.put(next, priority)
                 came_from[next] = current
+
     if PRINTPROCESS:
         print("no path found from " + str(start) + " to " + str(finish))
     return False
 
-#Heuristic - estimate of distance between two pieces
+
+# Heuristic - estimate of distance between two pieces
 # row diff + column diff
 def heuristic(start, finish):
 
