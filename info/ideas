@@ -1,3 +1,5 @@
+PART A
+
 Find path:
     Heuristics:
     Number of black pieces on board
@@ -24,3 +26,12 @@ Path finding:
        Heuristic: distance ignoring obstacles (difference in rows + difference in columns)
 
        https://www.redblobgames.com/pathfinding/a-star/implementation.html
+
+
+PART B
+
+min-max
+
+alpha-beta pruning
+
+a* path-finding
