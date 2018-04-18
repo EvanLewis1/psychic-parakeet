@@ -15,12 +15,14 @@ section on the LMS by 4.00pm, Wednesday 18th April 2018.
 • A breakdown of how you plan on sharing the workload of this project between you
 and your partner.
 
-This thing is a waste of time...
+Each time we meet we will work on a section together, splitting it into smaller functions which can be completed
+individually. Then at home these small sections will be completed and fit together to create the finished product.
+This will ensure we each know what we are doing and will not end up doubling up on work.
 
 • A summary of where and how regularly you plan on communicating about the
 project with your partner (e.g. weekly meetings after tutorials, video chat, email).
 
-Weekly meeting Wednesday at 12 and messaging cooperation over FB and github
+Weekly meeting Wednesday at 12 and messaging cooperation over FaceBook, GitHub and Email.
 
 • A list of upcoming deadlines for work in other subjects between now and the end of
 semester.
@@ -30,3 +32,8 @@ Evan
 - Corruption in SEA presentation, presenting week 8
 - Corruption in SEA presentation Essay due 4th June
 - Media and Urban Culture in Asia essay due 4th May
+
+Nick
+- Usability Engineering Assignment due 25th May
+- Web I.T. project due last week and deliverables every week
+- Business Finance mid sem 26th April
