@@ -10,21 +10,24 @@ RIGHT = 1
 DOWN = 2
 LEFT = 3
 
+
 class Piece:
-# Class for a piece on the board
+    # Class for a piece on the board
     def __init__(self, colour, pos):
         self.pos = pos
         self.colour = colour
-        #self.touchingOpposingPiece = touchingOpposingPiece
-        #self.adjacentTiles = adjacentTiles
+        # self.touchingOpposingPiece = touchingOpposingPiece
+        # self.adjacentTiles = adjacentTiles
 
-    def opposite(self, colour):
+    @staticmethod
+    def opposite(colour):
         if colour == WHITE:
             return BLACK
         elif colour == BLACK:
             return WHITE
         else:
             print("error: \'" + str(colour) + "\' not colour")
+            exit(0)
 
     # Return true if given piece is adjacent to this piece
     def adjacent(self, pos):

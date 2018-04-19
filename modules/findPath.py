@@ -8,6 +8,8 @@ PRINTPROCESS = False
 def printMassacrePath(boardState):
     path = findPath(boardState)
     pathString = ""
+    path = [[(x, y) for y, x in move] for move in path]
+
     for move in path:
         pathString = pathString + str(move[0]) + " -> " + str(move[1]) + "\n"
 

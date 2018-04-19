@@ -25,6 +25,7 @@ def main():
 
     # now, play the game!
     player, opponent = white, black # white has first move
+    print("BOARDSTATE OFFICIAL")
     print(game)
     while game.playing():
         if options.delay:
@@ -38,6 +39,7 @@ def main():
             # print the error message
             print(f"invalid action ({game.loser}):", e)
             break
+        print("BOARDSTATE OFFICIAL")
         print(game)
         opponent.update(action)
         # other player's turn!

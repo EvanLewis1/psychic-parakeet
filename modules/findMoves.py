@@ -1,4 +1,4 @@
-from modules.models import board_old
+from modules.models import Board2
 
 
 #Prints number of all possible moves for one turn for each colour
@@ -10,9 +10,9 @@ def printNumMoves(boardState):
 # Finds all possible moves for one turn for each colour
 def findMoves(boardState):
     moves = []
-    newmoves, numWhiteMoves = possibleMoves(boardState, board_old.WHITE)
+    newmoves, numWhiteMoves = possibleMoves(boardState, Board2.WHITE)
     moves = moves + newmoves
-    newmoves, numBlackMoves = possibleMoves(boardState, board_old.BLACK)
+    newmoves, numBlackMoves = possibleMoves(boardState, Board2.BLACK)
 
     moves = moves + newmoves
     numMoves = str(numWhiteMoves) + "\n" + str(numBlackMoves)
@@ -20,18 +20,38 @@ def findMoves(boardState):
 
 
 # Finds all possible moves for one turn for a given colour
-def possibleMoves(boardState, colour):
+def possibleMoves(board, colour, placing=False):
+    boardState = board.currentState
+
     numMoves = 0
     moves = []
-    pieces = board_old.colourPiecesInfo(boardState, colour)
 
-    # logic
-    # for each piece of the input colour,
+    if placing:
 
-    for piece in pieces:
-        pieceMoves, numPieceMoves = onePiecePossibleMoves(boardState, piece)
-        numMoves += numPieceMoves
-        moves += pieceMoves
+        if colour == Board2.WHITE:
+            zoneStart = 0
+            zoneEnd = Board2.boardSize -2
+        else:
+            zoneStart = 2
+            zoneEnd = Board2.boardSize
+
+        for row in range(zoneStart, zoneEnd):
+            for column in range(0, Board2.boardSize):
+                if boardState[column][row] == Board2.EMPTY:
+                    moves.append((column, row))
+
+    else:
+        pieces = board.colourPiecesInfo(colour)
+        print("pieces")
+        print([x.pos for x in pieces])
+
+        # logic
+        # for each piece of the input colour,
+
+        for piece in pieces:
+            pieceMoves, numPieceMoves = onePiecePossibleMoves(boardState, piece)
+            numMoves += numPieceMoves
+            moves += pieceMoves
 
     return moves, numMoves
 
@@ -39,8 +59,8 @@ def possibleMoves(boardState, colour):
 def onePiecePossibleMoves(boardState, piece):
     numMoves = 0
     moves = []
-    column = piece.pos[1]
-    row = piece.pos[0]
+    column = piece.pos[0]
+    row = piece.pos[1]
 
     # logic
     # for input piece,
@@ -49,55 +69,55 @@ def onePiecePossibleMoves(boardState, piece):
     # if one tile in direction is open space add move (1 tile move)
     # else if piece is there and open space one tile furthere is open add a move (Jump move)
 
-    # left
-    if column > 0:
-
-        if boardState[row][column - 1] == board_old.EMPTY:
-            numMoves = numMoves + 1
-            moves.append(((row, column), (row, column - 1)))
-
-        elif boardState[row][column - 1] == board_old.WHITE or boardState[row][column - 1] == board_old.BLACK:
-            if column > 1:
-                if boardState[row][column - 2] == board_old.EMPTY:
-                    moves.append(((row, column), (row, column - 2)))
-                    numMoves = numMoves + 1
-
-    # right
-    if column < board_old.boardSize - 1:
-
-        if boardState[row][column + 1] == board_old.EMPTY:
-            numMoves = numMoves + 1
-            moves.append(((row, column), (row, column + 1)))
-
-        elif boardState[row][column + 1] == board_old.WHITE or boardState[row][column + 1] == board_old.BLACK:
-            if column < board_old.boardSize - 2:
-                if boardState[row][column + 2] == board_old.EMPTY:
-                    numMoves = numMoves + 1
-                    moves.append(((row, column), (row, column + 2)))
     # up
     if row > 0:
 
-        if boardState[row - 1][column] == board_old.EMPTY:
+        if boardState[column][row - 1] == Board2.EMPTY:
             numMoves = numMoves + 1
-            moves.append(((row, column), (row - 1, column)))
+            moves.append(((column, row), (column, row - 1)))
 
-        elif boardState[row - 1][column] == board_old.WHITE or boardState[row - 1][column] == board_old.BLACK:
+        elif boardState[column][row - 1] == Board2.WHITE or boardState[column][row - 1] == Board2.BLACK:
             if row > 1:
-                if boardState[row - 2][column] == board_old.EMPTY:
+                if boardState[column][row - 2] == Board2.EMPTY:
+                    moves.append(((column, row), (column, row - 2)))
                     numMoves = numMoves + 1
-                    moves.append(((row, column), (row - 2, column)))
 
     # down
-    if row < board_old.boardSize - 1:
+    if row < Board2.boardSize - 1:
 
-        if boardState[row + 1][column] == board_old.EMPTY:
+        if boardState[column][row + 1] == Board2.EMPTY:
             numMoves = numMoves + 1
-            moves.append(((row, column), (row + 1, column)))
+            moves.append(((column, row), (column, row + 1)))
 
-        elif boardState[row + 1][column] == board_old.WHITE or boardState[row + 1][column] == board_old.BLACK:
-            if row < board_old.boardSize - 2:
-                if boardState[row + 2][column] == board_old.EMPTY:
+        elif boardState[column][row + 1] == Board2.WHITE or boardState[column][row + 1] == Board2.BLACK:
+            if row < Board2.boardSize - 2:
+                if boardState[column][row + 2] == Board2.EMPTY:
                     numMoves = numMoves + 1
-                    moves.append(((row, column), (row + 2, column)))
+                    moves.append(((column, row), (column, row + 2)))
+    # left
+    if column > 0:
+
+        if boardState[column - 1][row] == Board2.EMPTY:
+            numMoves = numMoves + 1
+            moves.append(((column, row), (column - 1, row)))
+
+        elif boardState[column - 1][row] == Board2.WHITE or boardState[column - 1][row] == Board2.BLACK:
+            if column > 1:
+                if boardState[column - 2][row] == Board2.EMPTY:
+                    numMoves = numMoves + 1
+                    moves.append(((column, row), (column - 2, row)))
+
+    # right
+    if column < Board2.boardSize - 1:
+
+        if boardState[column + 1][row] == Board2.EMPTY:
+            numMoves = numMoves + 1
+            moves.append(((column, row), (column + 1, row)))
+
+        elif boardState[column + 1][row] == Board2.WHITE or boardState[column + 1][row] == Board2.BLACK:
+            if column < Board2.boardSize - 2:
+                if boardState[column + 2][row] == Board2.EMPTY:
+                    numMoves = numMoves + 1
+                    moves.append(((column, row), (column + 2, row)))
 
     return moves, numMoves
