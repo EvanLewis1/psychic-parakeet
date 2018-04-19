@@ -1,5 +1,5 @@
 import modules.findMoves as findMoves
-from modules.models import board
+from modules.models import board_old
 import heapq
 
 #If true, print steps in logic including board state for each step, path plans and failed paths
@@ -25,7 +25,7 @@ def findPath(boardState):
 
     massacreMoves = []
 
-    while (board.blackPiecesExist(currentBoardState)):
+    while (board_old.blackPiecesExist(currentBoardState)):
         # Logic for next move
         nextMove = findNextMove(currentBoardState)
 
@@ -34,7 +34,7 @@ def findPath(boardState):
             print("move" + str(nextMove))
         currentBoardState = applyMove(nextMove, currentBoardState)
         if PRINTPROCESS:
-            board.printBoardState(currentBoardState)
+            board_old.printBoardState(currentBoardState)
 
         # continue loop
 
@@ -45,7 +45,7 @@ def findNextMove(boardState):
     nextMove = ()
 
     numMoves, possibleMoves = findMoves.findMoves(boardState)
-    targetPieces = board.colourPiecesInfo(boardState, board.BLACK)
+    targetPieces = board_old.colourPiecesInfo(boardState, board_old.BLACK)
 
     prioritisedTargetPieces = [piece for piece in targetPieces if piece.inDanger(boardState)]
     prioritisedTargetPieces = prioritisedTargetPieces + [piece for piece in targetPieces if not piece.inDanger(boardState)]
@@ -54,7 +54,7 @@ def findNextMove(boardState):
     for targetPiece in prioritisedTargetPieces:
 
         # For all white pieces
-        attackingPieces = board.colourPiecesInfo(boardState, board.WHITE)
+        attackingPieces = board_old.colourPiecesInfo(boardState, board_old.WHITE)
         # Search for path from white piece to target black piece
         shortestPath = []
         shortestPathLength = -1
@@ -96,7 +96,7 @@ def applyMove(move, boardState):
     # Get piece's colour
     colour = newBoardState[move[0][0]][move[0][1]]
     # Remove piece from original position
-    newBoardState[move[0][0]][move[0][1]] = board.EMPTY
+    newBoardState[move[0][0]][move[0][1]] = board_old.EMPTY
 
     # Add piece to destination
     newBoardState[move[1][0]][move[1][1]] = colour
@@ -109,25 +109,25 @@ def applyMove(move, boardState):
 
 def wipeDeadPieces(boardState, whosTurn):
     # Wipe opposing pieces (Before current turn's pieces!)
-    for colour in [board.opposite(whosTurn), whosTurn]:
-        for row in range(0, board.boardSize):
-            for column in range(0, board.boardSize):
+    for colour in [board_old.opposite(whosTurn), whosTurn]:
+        for row in range(0, board_old.boardSize):
+            for column in range(0, board_old.boardSize):
                 if boardState[row][column] == colour:
                     # if surrounded vertically
-                    if 0 < row < board.boardSize-1:
-                        if (boardState[row - 1][column] == board.opposite(colour) or boardState[row - 1][
-                            column] == board.CORNER) \
-                                and (boardState[row + 1][column] == board.opposite(colour) or boardState[row + 1][
-                                column] == board.CORNER):
-                            boardState[row][column] = board.EMPTY  # Remove
+                    if 0 < row < board_old.boardSize-1:
+                        if (boardState[row - 1][column] == board_old.opposite(colour) or boardState[row - 1][
+                            column] == board_old.CORNER) \
+                                and (boardState[row + 1][column] == board_old.opposite(colour) or boardState[row + 1][
+                                column] == board_old.CORNER):
+                            boardState[row][column] = board_old.EMPTY  # Remove
 
                     # if surrounded horizontally
-                    if 0 < column < board.boardSize-1:
-                        if (boardState[row][column - 1] == board.opposite(colour) or (
-                                boardState[row][column - 1] == board.CORNER)) \
-                                and (boardState[row][column + 1] == board.opposite(colour) or boardState[row][
-                                column + 1] == board.CORNER):
-                            boardState[row][column] = board.EMPTY  # Remove
+                    if 0 < column < board_old.boardSize-1:
+                        if (boardState[row][column - 1] == board_old.opposite(colour) or (
+                                boardState[row][column - 1] == board_old.CORNER)) \
+                                and (boardState[row][column + 1] == board_old.opposite(colour) or boardState[row][
+                                column + 1] == board_old.CORNER):
+                            boardState[row][column] = board_old.EMPTY  # Remove
 
     return boardState
 
@@ -184,8 +184,8 @@ def attackPath(boardState, attackingPiece, targetPiece):
         # Next nodes/directions
         # Get finish position of all possible moves
 
-        possibleMoves,_ = findMoves.onePiecePossibleMoves(boardState, board.piece(board.WHITE, current))
-        safeMoves = [move for move in possibleMoves if len(board.colourPiecesInfo(boardState, board.WHITE)) == len(board.colourPiecesInfo(applyMove((start, move[1]),  boardState), board.WHITE))]
+        possibleMoves,_ = findMoves.onePiecePossibleMoves(boardState, board_old.piece(board_old.WHITE, current))
+        safeMoves = [move for move in possibleMoves if len(board_old.colourPiecesInfo(boardState, board_old.WHITE)) == len(board_old.colourPiecesInfo(applyMove((start, move[1]), boardState), board_old.WHITE))]
         nodes = [x[1] for x in safeMoves]
 
         for next in nodes:

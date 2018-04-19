@@ -1,5 +1,35 @@
 #Used to model the board of the game "backstab"
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Used for partA only
+
+
+
+
+
+
+
+
+
+
+
+
 BLACK = "@"
 WHITE = "O"
 EMPTY = "-"

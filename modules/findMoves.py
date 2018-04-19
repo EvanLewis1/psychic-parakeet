@@ -1,4 +1,4 @@
-from modules.models import board
+from modules.models import board_old
 
 
 #Prints number of all possible moves for one turn for each colour
@@ -10,9 +10,9 @@ def printNumMoves(boardState):
 # Finds all possible moves for one turn for each colour
 def findMoves(boardState):
     moves = []
-    newmoves, numWhiteMoves = possibleMoves(boardState, board.WHITE)
+    newmoves, numWhiteMoves = possibleMoves(boardState, board_old.WHITE)
     moves = moves + newmoves
-    newmoves, numBlackMoves = possibleMoves(boardState, board.BLACK)
+    newmoves, numBlackMoves = possibleMoves(boardState, board_old.BLACK)
 
     moves = moves + newmoves
     numMoves = str(numWhiteMoves) + "\n" + str(numBlackMoves)
@@ -23,7 +23,7 @@ def findMoves(boardState):
 def possibleMoves(boardState, colour):
     numMoves = 0
     moves = []
-    pieces = board.colourPiecesInfo(boardState, colour)
+    pieces = board_old.colourPiecesInfo(boardState, colour)
 
     # logic
     # for each piece of the input colour,
@@ -52,51 +52,51 @@ def onePiecePossibleMoves(boardState, piece):
     # left
     if column > 0:
 
-        if boardState[row][column - 1] == board.EMPTY:
+        if boardState[row][column - 1] == board_old.EMPTY:
             numMoves = numMoves + 1
             moves.append(((row, column), (row, column - 1)))
 
-        elif boardState[row][column - 1] == board.WHITE or boardState[row][column - 1] == board.BLACK:
+        elif boardState[row][column - 1] == board_old.WHITE or boardState[row][column - 1] == board_old.BLACK:
             if column > 1:
-                if boardState[row][column - 2] == board.EMPTY:
+                if boardState[row][column - 2] == board_old.EMPTY:
                     moves.append(((row, column), (row, column - 2)))
                     numMoves = numMoves + 1
 
     # right
-    if column < board.boardSize - 1:
+    if column < board_old.boardSize - 1:
 
-        if boardState[row][column + 1] == board.EMPTY:
+        if boardState[row][column + 1] == board_old.EMPTY:
             numMoves = numMoves + 1
             moves.append(((row, column), (row, column + 1)))
 
-        elif boardState[row][column + 1] == board.WHITE or boardState[row][column + 1] == board.BLACK:
-            if column < board.boardSize - 2:
-                if boardState[row][column + 2] == board.EMPTY:
+        elif boardState[row][column + 1] == board_old.WHITE or boardState[row][column + 1] == board_old.BLACK:
+            if column < board_old.boardSize - 2:
+                if boardState[row][column + 2] == board_old.EMPTY:
                     numMoves = numMoves + 1
                     moves.append(((row, column), (row, column + 2)))
     # up
     if row > 0:
 
-        if boardState[row - 1][column] == board.EMPTY:
+        if boardState[row - 1][column] == board_old.EMPTY:
             numMoves = numMoves + 1
             moves.append(((row, column), (row - 1, column)))
 
-        elif boardState[row - 1][column] == board.WHITE or boardState[row - 1][column] == board.BLACK:
+        elif boardState[row - 1][column] == board_old.WHITE or boardState[row - 1][column] == board_old.BLACK:
             if row > 1:
-                if boardState[row - 2][column] == board.EMPTY:
+                if boardState[row - 2][column] == board_old.EMPTY:
                     numMoves = numMoves + 1
                     moves.append(((row, column), (row - 2, column)))
 
     # down
-    if row < board.boardSize - 1:
+    if row < board_old.boardSize - 1:
 
-        if boardState[row + 1][column] == board.EMPTY:
+        if boardState[row + 1][column] == board_old.EMPTY:
             numMoves = numMoves + 1
             moves.append(((row, column), (row + 1, column)))
 
-        elif boardState[row + 1][column] == board.WHITE or boardState[row + 1][column] == board.BLACK:
-            if row < board.boardSize - 2:
-                if boardState[row + 2][column] == board.EMPTY:
+        elif boardState[row + 1][column] == board_old.WHITE or boardState[row + 1][column] == board_old.BLACK:
+            if row < board_old.boardSize - 2:
+                if boardState[row + 2][column] == board_old.EMPTY:
                     numMoves = numMoves + 1
                     moves.append(((row, column), (row + 2, column)))
 
