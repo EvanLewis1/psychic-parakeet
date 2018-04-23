@@ -1,4 +1,5 @@
 from modules.models import Board2
+from modules.models.Rules import *
 
 
 #Prints number of all possible moves for one turn for each colour
@@ -20,13 +21,13 @@ def findMoves(boardState):
 
 
 # Finds all possible moves for one turn for a given colour
-def possibleMoves(board, colour, placing=False):
+def possibleMoves(board, colour, stage = MOVE1):
     boardState = board.currentState
 
     numMoves = 0
     moves = []
 
-    if placing:
+    if stage == PLACING:
 
         if colour == Board2.WHITE:
             zoneStart = 0
@@ -38,12 +39,11 @@ def possibleMoves(board, colour, placing=False):
         for row in range(zoneStart, zoneEnd):
             for column in range(0, Board2.boardSize):
                 if boardState[column][row] == Board2.EMPTY:
+                    numMoves +=1
                     moves.append((column, row))
 
     else:
         pieces = board.colourPiecesInfo(colour)
-        print("pieces")
-        print([x.pos for x in pieces])
 
         # logic
         # for each piece of the input colour,
@@ -52,7 +52,6 @@ def possibleMoves(board, colour, placing=False):
             pieceMoves, numPieceMoves = onePiecePossibleMoves(boardState, piece)
             numMoves += numPieceMoves
             moves += pieceMoves
-
     return moves, numMoves
 
 # Finds all possible moves for one turn for a given piece

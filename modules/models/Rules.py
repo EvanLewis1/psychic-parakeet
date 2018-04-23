@@ -1,0 +1,23 @@
+BLACK = "@"
+WHITE = "O"
+EMPTY = "-"
+CORNER = "X"
+OUTOFBOUNDS = "!"
+
+boardSize = 8
+
+UP = 0
+RIGHT = 1
+DOWN = 2
+LEFT = 3
+
+PLACING = 0
+MOVE1 = 1
+MOVE2 = 2
+MOVE3 = 3
+
+STARTMOVE1 = 24
+
+STARTMOVE2 = 152
+
+STARTMOVE3 = 220

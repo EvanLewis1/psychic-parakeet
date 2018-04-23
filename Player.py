@@ -1,34 +1,42 @@
 # Class that represents player of Backstab
 # Nick Conte and Evan Lewis
 
+import random
+
 
 from modules.models.Board2 import Board
 from modules import findMoves
 from modules.models import Piece
+from modules.models.Rules import *
+
 
 class Player:
     def __init__(self, colour):
+
+        #Print the thought process of program
         self.PRINTPROCESS = True
 
+        #Playing colour
         self.colour = colour
+
+        #single character representation of colour
         if colour == "white":
             self.colourChar = "O"
-            self.PRINTPROCESS = False
         else:
             self.colourChar = "@"
 
         self.turns = 0
+        self.stage = PLACING
         self.board = Board()
+
         if self.PRINTPROCESS:
             print("New Board")
             self.board.printBoard()
-
 
     def action(self, turns):
         return self.getNextMove()
 
     def update(self, action):
-        placing = self.turns < 24
 
         if self.PRINTPROCESS:
             print("for turn " + str(self.turns + 1))
@@ -38,34 +46,56 @@ class Player:
             self.board.printBoard()
             print("To")
 
-        self.board.applyMove(action, placing, Piece.Piece.opposite(self.colourChar))
+        # Apply opponent's move to board representation
+        self.board.applyMove(action, self.stage, Piece.Piece.opposite(self.colourChar))
 
         if self.PRINTPROCESS:
             self.board.printBoard()
 
-        self.turns += 1
+        # Count the turn
+        self.nextTurn()
 
     def getNextMove(self):
         if self.PRINTPROCESS:
             print("for turn " + str(self.turns + 1))
             print("I of colour " + self.colourChar)
 
-        placing = self.turns < 24
+        #Get all possible moves
+        possibleMoves, numMoves = findMoves.possibleMoves(self.board, self.colourChar, self.stage)
 
-        move = findMoves.possibleMoves(self.board, self.colourChar, placing)[0][1]
+        if numMoves > 0:
+            move = possibleMoves[random.randrange(0, numMoves)]
+        else:
+            move = None
 
         if self.PRINTPROCESS:
+            print("Have " + str(numMoves) + " possible moves")
             print("Play " + str(move))
             print("Going from ")
             self.board.printBoard()
             print("To")
 
-        self.board.applyMove(move, placing, self.colourChar)
+        # Apply move to board representation
+        self.board.applyMove(move, self.stage, self.colourChar)
         if self.PRINTPROCESS:
             self.board.printBoard()
-        self.turns += 1
 
-        if(self.colour == "white"):
-            self.board.currentState[5][5] = "Wall"
+        # Count the turn
+        self.nextTurn()
 
         return move
+
+    def nextTurn(self):
+        self.turns += 1
+
+        # Check to see if stage has changed
+        if self.turns == STARTMOVE1:
+            self.stage = MOVE1
+        if self.turns == STARTMOVE2:
+            self.board.shrink(1)  # Shrink board
+            self.stage = MOVE2
+        if self.turns == STARTMOVE3:
+            self.board.shrink(2)  # Shrink board
+            self.stage = MOVE3
+
+
