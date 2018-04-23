@@ -1,20 +1,11 @@
-#Used to model the board of the game "backstab"
+# Used to model the board of the game "backstab"
 
 # Used for part b
 
 from modules.models.Piece import Piece
 
-BLACK = "@"
-WHITE = "O"
-EMPTY = "-"
-CORNER = "X"
+from modules.models.Rules import *
 
-boardSize = 8
-
-UP = 0
-RIGHT = 1
-DOWN = 2
-LEFT = 3
 
 class Board:
 
@@ -43,7 +34,6 @@ class Board:
                     return True
         return False
 
-
     # Return all list of all pieces of given colour
     def colourPiecesInfo(self, colour):
         pieces = []
@@ -62,9 +52,11 @@ class Board:
                 line = line + self.currentState[column][row] + " "
             print(line)
 
-    def applyMove(self, move, placing=False, colour=None):
+    def applyMove(self, move, stage=MOVE1, colour=None):
+        if move == None:
+            return
 
-        if placing:
+        if stage == PLACING:
             print("apply")
             self.currentState[move[0]][move[1]] = colour
 
@@ -93,7 +85,8 @@ class Board:
                         if 0 < row < boardSize - 1:
                             if (self.currentState[column][row - 1] == Piece.opposite(colour) or self.currentState[
                                 column][row - 1] == CORNER) \
-                                    and (self.currentState[column][row + 1] == Piece.opposite(colour) or self.currentState[
+                                    and (
+                                    self.currentState[column][row + 1] == Piece.opposite(colour) or self.currentState[
                                 column][row + 1] == CORNER):
                                 self.currentState[column][row] = EMPTY  # Remove
 
@@ -101,6 +94,21 @@ class Board:
                         if 0 < column < boardSize - 1:
                             if (self.currentState[column - 1][row] == Piece.opposite(colour) or (
                                     self.currentState[column - 1][row] == CORNER)) \
-                                    and (self.currentState[column + 1][row] == Piece.opposite(colour) or self.currentState[
+                                    and (
+                                    self.currentState[column + 1][row] == Piece.opposite(colour) or self.currentState[
                                 column + 1][row] == CORNER):
                                 self.currentState[column][row] = EMPTY  # Remove
+
+    def shrink(self, amount):
+
+        border = amount - 1
+
+        for column in range(0, boardSize):
+            for row in range(0, boardSize):
+                if row == border or row == boardSize - border - 1 or column == border or column == boardSize - border - 1:
+                    self.currentState[column][row] = OUTOFBOUNDS
+
+        self.currentState[1][boardSize - amount-1] = CORNER
+        self.currentState[1][1] = CORNER
+        self.currentState[boardSize - amount -1][boardSize - amount -1] = CORNER
+        self.currentState[boardSize - amount -1][1] = CORNER
