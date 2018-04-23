@@ -16,27 +16,29 @@ RIGHT = 1
 DOWN = 2
 LEFT = 3
 
-STARTINGSTATE = []
-for x in range(0, boardSize):
-    row = []
-    for y in range(0, boardSize):
-        row.append(EMPTY)
-    STARTINGSTATE.append(row)
-
-STARTINGSTATE[0][0] = CORNER
-STARTINGSTATE[0][boardSize-1] = CORNER
-STARTINGSTATE[boardSize-1][0] = CORNER
-STARTINGSTATE[boardSize-1][boardSize-1] = CORNER
-
-
 class Board:
 
-    def __init__(self, state=STARTINGSTATE):
-        self.currentState = state
+    def __init__(self):
+
+        self.newBoard()
+
+    def newBoard(self):
+        STARTINGSTATE = []
+        for x in range(0, boardSize):
+            row = []
+            for y in range(0, boardSize):
+                row.append(EMPTY)
+            STARTINGSTATE.append(row)
+
+        STARTINGSTATE[0][0] = CORNER
+        STARTINGSTATE[0][boardSize - 1] = CORNER
+        STARTINGSTATE[boardSize - 1][0] = CORNER
+        STARTINGSTATE[boardSize - 1][boardSize - 1] = CORNER
+        self.currentState = STARTINGSTATE
 
     def blackPiecesExist(self):
         for column in self.currentState:
-            for tile in row:
+            for tile in column:
                 if tile == BLACK:
                     return True
         return False

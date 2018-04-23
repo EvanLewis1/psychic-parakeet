@@ -11,6 +11,9 @@ Plays a basic game of Watch Your Back! between two Player classes
 Run `python referee.py -h` for help and additional usage information
 """
 
+PRINTPROCESS = True
+
+
 def main():
     """Coordinate a game of Watch Your Back! between two Player classes."""
 
@@ -25,8 +28,9 @@ def main():
 
     # now, play the game!
     player, opponent = white, black # white has first move
-    print("BOARDSTATE OFFICIAL")
-    print(game)
+    if PRINTPROCESS:
+        print("BOARDSTATE OFFICIAL")
+        print(game)
     while game.playing():
         if options.delay:
             time.sleep(options.delay)

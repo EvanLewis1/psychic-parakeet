@@ -65,6 +65,7 @@ class Player:
             self.board.printBoard()
         self.turns += 1
 
-        self.board.currentState[5][5] = "Wall"
+        if(self.colour == "white"):
+            self.board.currentState[5][5] = "Wall"
 
         return move
