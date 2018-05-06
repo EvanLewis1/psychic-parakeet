@@ -37,3 +37,5 @@ alpha-beta pruning
 a* path-finding
 
 Look at moving pieces away from edges when board is going to shrink
+
+Strategy for initial placement of pieces

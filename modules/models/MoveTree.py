@@ -1,8 +1,11 @@
 # Class that represents the move tree and move nodes of Backstab
 # Nick Conte and Evan Lewis
 
+
+from random import *
 from copy import deepcopy
-from modules.models.Board2 import Board
+
+
 from modules import findMoves
 from modules.models import Piece
 from modules.models.Rules import *
@@ -10,7 +13,7 @@ from modules.models.Rules import *
 
 
 class Node:
-    def __init__(self, player, move, board=None, value=0, movenum=0, parent=None):
+    def __init__(self, player, move, board=None, value=None, movenum=0, parent=None):
 
         # Player making the move
         self.player = player
@@ -32,6 +35,9 @@ class Node:
 
         # Children nodes
         self.children = []
+
+        # Best child move
+        self.bestChildMove = None
 
     def printNode(self):
         print("NODE: ")
@@ -70,7 +76,7 @@ class MoveTree:
             if node.moveNum >= depth:
                 # NEED TO IMPLEMENT HEURISTIC
                 # node.value = heuristic(node.board)
-                node.value = 5 #temp value
+                node.value = randint(1, 5)  #temp value
                 return
 
         for child in parent.children:

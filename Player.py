@@ -8,6 +8,7 @@ from modules.models.Board2 import Board
 from modules import findMoves
 from modules.models import Piece
 from modules.models.Rules import *
+from modules import minimax
 
 
 class Player:
@@ -64,7 +65,12 @@ class Player:
         possibleMoves, numMoves = findMoves.possibleMoves(self.board, self.colourChar, self.stage)
 
         if numMoves > 0:
-            move = possibleMoves[random.randrange(0, numMoves)]
+
+            #Once moving phase has begun, use minimax to find best moves
+            if self.stage > 0:
+                move = minimax.initMinimax(possibleMoves, self.stage, self.board, 2)
+            else:
+                move = possibleMoves[random.randrange(0, numMoves)]
         else:
             move = None
 
