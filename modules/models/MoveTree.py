@@ -9,6 +9,7 @@ from copy import deepcopy
 from modules import findMoves
 from modules.models import Piece
 from modules.models.Rules import *
+from modules import heuristic
 
 
 
@@ -74,9 +75,8 @@ class MoveTree:
             parent.children.append(node)
 
             if node.moveNum >= depth:
-                # NEED TO IMPLEMENT HEURISTIC
-                # node.value = heuristic(node.board)
-                node.value = randint(1, 5)  #temp value
+                # Uses heuristic to give value
+                node.value = heuristic.heuristic(board, node.board)
                 return
 
         for child in parent.children:
