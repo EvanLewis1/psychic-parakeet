@@ -76,7 +76,7 @@ class MoveTree:
 
             if node.moveNum >= depth:
                 # Uses heuristic to give value
-                node.value = heuristic.heuristic(board, node.board)
+                node.value = heuristic.heuristic_controlOfCentre(node.board, Piece.Piece.opposite(parent.player))
                 return
 
         for child in parent.children:
