@@ -17,8 +17,8 @@ def initMinimax(moves, stage, board, depth):
     bestMove = MovesTree.root.bestChildMove
     return bestMove
 
-def minimax(nodes):
 
+def minimax(nodes):
     for node in nodes:
 
         if node.value is not None: #is not None
@@ -30,9 +30,15 @@ def minimax(nodes):
                     if node.value > node.parent.value:
                         node.parent.value = node.value
                         node.parent.bestChildMove = node.move
+                    # Alpha beta pruning
+                    #else:
+                        #return
                 else:
                     if node.value < node.parent.value:
                         node.parent.value = node.value
                         node.parent.bestChildMove = node.move
+                    # Alpha beta pruning
+                    #else:
+                        #return
         else:
             minimax(node.children)
