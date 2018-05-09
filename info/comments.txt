@@ -1,0 +1,29 @@
+Nick Conte & Evan Lewis
+
+
+---Briefly describe the structure of your solution in terms of the major modules and
+---classes you have created and used.
+
+
+---• Describe the approach taken by your game playing program for deciding on which
+---actions to take, in terms of
+---o your search strategy,
+---o your evaluation function
+Grades the board state based on advantage over other pieces by comparing value of pieces on board
+-more pieces = more points
+-pieces close to centre of board are worth more than pieces around edges
+This is because if you control the centre of the board you can defeat the opponent by letting the board wipe their pieces
+
+---o any creative techniques that you have applied, for example, machine
+---learning, search strategy optimisations, specialised data structures, other
+---optimisations, or any search algorithms not discussed in the lectures.
+
+
+
+---• If you have applied machine learning, you should discuss the learning techniques
+---methodology you followed for training the agent, and the intuition behind using that
+---specific technique.
+
+
+---• Include any other creative aspects of your solution, and any additional comments
+---you want to be considered by the markers

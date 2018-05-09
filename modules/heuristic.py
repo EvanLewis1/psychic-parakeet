@@ -57,6 +57,8 @@ def heuristic(board, colour):
 
     return advantage
 
+
+#Returns the advantage(as a number/score) that the given colour has, can be negative to represent a disadvantage
 def heuristic_controlOfCentre(board, colour):
 
     #Victory if opponent has two or less pieces
