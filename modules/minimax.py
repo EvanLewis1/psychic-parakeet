@@ -1,44 +1,61 @@
 # The minimax algorithm which helps select the best move to take
 # Nick Conte and Evan Lewis
+# Based on pseudocode from AIMA textbook website as stated in part B spec
+# http://aima.cs.berkeley.edu/algorithms.pdf
 
-
-from modules.models.Rules import *
+import math
 from modules.models import MoveTree
 
-def initMinimax(moves, stage, board, depth):
 
-    MovesTree = MoveTree.MoveTree(moves, stage, board, depth)
+def minimax(moves, stage, board, searchDepth):
 
-    nodes = MovesTree.root.children
+    MovesTree = MoveTree.MoveTree(moves, stage, board, searchDepth)
 
-    while MovesTree.root.value is None:
-        minimax(nodes)
+    root = MovesTree.root
 
-    bestMove = MovesTree.root.bestChildMove
-    return bestMove
+    totalMaxVal = -math.inf
+    totalBestMove = None
+
+    for move in root.children:
+        value = minVal(move, -math.inf, math.inf)
+        if value > totalMaxVal:
+            totalMaxVal = value
+            totalBestMove = move.move
+
+    return totalBestMove
 
 
-def minimax(nodes):
-    for node in nodes:
+def maxVal(move, alpha, beta):
+    if not move.children:
+        return move.value
 
-        if node.value is not None: #is not None
-            if not node.parent.value: # is None
-                node.parent.value = node.value
-                node.parent.bestChildMove = node.move
-            else:
-                if node.parent.player == WHITE:
-                    if node.value > node.parent.value:
-                        node.parent.value = node.value
-                        node.parent.bestChildMove = node.move
-                    # Alpha beta pruning
-                    #else:
-                        #return
-                else:
-                    if node.value < node.parent.value:
-                        node.parent.value = node.value
-                        node.parent.bestChildMove = node.move
-                    # Alpha beta pruning
-                    #else:
-                        #return
-        else:
-            minimax(node.children)
+    maxVal = -math.inf
+
+    for move in move.children:
+        minMoveVal = minVal(move, alpha, beta)
+        if minMoveVal > maxVal:
+            maxVal = minMoveVal
+        if maxVal >= beta:
+            return maxVal
+        if maxVal > alpha:
+            alpha = maxVal
+
+    return maxVal
+
+
+def minVal(move, alpha, beta):
+    if not move.children:
+        return move.value
+
+    minVal = math.inf
+
+    for move in move.children:
+        maxMoveVal = maxVal(move, alpha, beta)
+        if maxMoveVal < minVal:
+            minVal = maxMoveVal
+        if minVal <= alpha:
+            return minVal
+        if minVal < beta:
+            beta = minVal
+
+    return minVal
