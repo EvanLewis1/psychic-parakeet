@@ -68,13 +68,24 @@ class Board:
         # Remove dead pieces
         self.wipeDeadPieces(colour)
 
-    def wipeDeadPieces(self, whosTurn):
+    def wipeDeadPieces(self, whosTurn, ignoreColour=False):
 
         # For all pieces of current colour
-        for colour in [Piece.opposite(whosTurn), whosTurn]:  # Wipe opposing pieces (Before current turn's pieces)
+        for focusColour in [Piece.opposite(whosTurn), whosTurn]:  # Wipe opposing pieces (Before current turn's pieces)
             for column in range(0, boardSize):
                 for row in range(0, boardSize):
-                    if self.currentState[column][row] == colour:
+
+                    checkPiece = False
+                    if self.currentState[column][row] == focusColour:
+                        checkPiece = True
+                        colour = focusColour
+
+                    if self.currentState[column][row] == Piece.opposite(focusColour) and ignoreColour:
+                        checkPiece = True
+                        colour = Piece.opposite(focusColour)
+
+
+                    if checkPiece:
 
                         # If surrounded vertically
                         if 0 < row < boardSize - 1:
@@ -113,3 +124,5 @@ class Board:
         self.currentState[amount][amount] = CORNER
         self.currentState[boardSize - amount -1][boardSize - amount -1] = CORNER
         self.currentState[boardSize - amount -1][amount] = CORNER
+
+        self.wipeDeadPieces(WHITE, True)

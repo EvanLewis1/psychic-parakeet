@@ -16,7 +16,7 @@ class Player:
     def __init__(self, colour):
 
         #Print the thought process of program
-        self.PRINTPROCESS = True
+        self.PRINTPROCESS = False
 
         #Playing colour
         self.colour = colour
