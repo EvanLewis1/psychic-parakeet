@@ -109,7 +109,7 @@ class Board:
                     self.currentState[column][row] = OUTOFBOUNDS
 
         # Create new corners
-        self.currentState[1][boardSize - amount-1] = CORNER
-        self.currentState[1][1] = CORNER
+        self.currentState[amount][boardSize - amount-1] = CORNER
+        self.currentState[amount][amount] = CORNER
         self.currentState[boardSize - amount -1][boardSize - amount -1] = CORNER
-        self.currentState[boardSize - amount -1][1] = CORNER
+        self.currentState[boardSize - amount -1][amount] = CORNER

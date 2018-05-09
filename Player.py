@@ -8,7 +8,7 @@ from modules.models.Board2 import Board
 from modules import findMoves
 from modules.models import Piece
 from modules.models.Rules import *
-from modules import minimax
+from modules import minimaxRecursive
 from modules import minimaxRecursive
 
 
@@ -69,7 +69,7 @@ class Player:
 
             #Once moving phase has begun, use minimax to find best moves
             if self.stage > 0:
-                move = minimax.minimax(possibleMoves, self.stage, self.board, 2)
+                move = minimaxRecursive.minimax(possibleMoves, self.stage, self.board, 2, self.colourChar)
             else:
                 move = possibleMoves[random.randrange(0, numMoves)]
         else:

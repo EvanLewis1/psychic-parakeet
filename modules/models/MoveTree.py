@@ -46,15 +46,15 @@ class Node:
 
 
 class MoveTree:
-    def __init__(self, moves, stage, board, depth):
+    def __init__(self, moves, stage, board, depth, colourChar):
 
         # Root of the tree
         self.root = None
 
-        self.initiateBuildTree(moves, stage, board, depth)
+        self.initiateBuildTree(moves, stage, board, depth, colourChar)
 
-    def initiateBuildTree(self, moves, stage, board, depth):
-        self.root = Node(WHITE, 0)
+    def initiateBuildTree(self, moves, stage, board, depth, colourChar):
+        self.root = Node(colourChar, 0)
 
         self.root.board = board
 

@@ -7,9 +7,9 @@ import math
 from modules.models import MoveTree
 
 
-def minimax(moves, stage, board, searchDepth):
+def minimax(moves, stage, board, searchDepth, colourChar):
 
-    MovesTree = MoveTree.MoveTree(moves, stage, board, searchDepth)
+    MovesTree = MoveTree.MoveTree(moves, stage, board, searchDepth, colourChar)
 
     root = MovesTree.root
 

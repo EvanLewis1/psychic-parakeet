@@ -8,7 +8,7 @@ from modules.models.Board2 import Board
 from modules import findMoves
 from modules.models import Piece
 from modules.models.Rules import *
-from modules import minimax
+from modules import minimaxRecursive
 
 
 class Player:
