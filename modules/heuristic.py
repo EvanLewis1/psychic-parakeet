@@ -57,3 +57,24 @@ def heuristic(board, colour):
 
     return advantage
 
+def heuristic_controlOfCentre(board, colour):
+
+    #Victory if opponent has two or less pieces
+    if len(board.colourPiecesInfo(Piece.Piece.opposite(colour))) < 3:
+        return 1000
+
+
+    myBoardPower = 0
+    myPieces = board.colourPiecesInfo(colour)
+    for piece in myPieces:
+        myBoardPower += PIECEWORTH - piece.distFromCentre()
+
+    oppBoardPower = 0
+    oppPieces = board.colourPiecesInfo(Piece.Piece.opposite(colour))
+    for piece in oppPieces:
+        oppBoardPower += PIECEWORTH - piece.distFromCentre()
+
+
+    advantage = myBoardPower - oppBoardPower
+
+    return advantage
