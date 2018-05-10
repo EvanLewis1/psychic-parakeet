@@ -68,6 +68,8 @@ class MoveTree:
 
             node.moveNum = parent.moveNum + 1
             node.parent = parent
+            node.stage = stage
+
 
             node.board = Board(parent.board.currentState)#deepcopy(parent.board)
             node.board.applyMove(move, stage, node.player)
@@ -76,7 +78,7 @@ class MoveTree:
 
             if node.moveNum >= depth:
                 # Uses heuristic to give value
-                node.value = heuristic.heuristic_controlOfCentre(node.board, node.player, stage, depth)
+                #node.value = heuristic.heuristic_controlOfCentre(node.board, node.player, stage, depth)
                 # if node.value < -10:
                 #     print("FAIL")
                 #     print(node.parent.player)

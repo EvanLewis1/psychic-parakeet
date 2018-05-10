@@ -14,7 +14,9 @@ from modules.heuristic import heuristic_controlOfCentre
 def minimax(moves, stage, board, searchDepth, colourChar):
 
     #Create Move Tree
+    print("start")
     MovesTree = MoveTree.MoveTree(moves, stage, board, searchDepth, colourChar)
+    print("end")
 
     root = MovesTree.root
 
@@ -29,7 +31,7 @@ def minimax(moves, stage, board, searchDepth, colourChar):
         if PRINTPROCESS:
             move.board.printBoard()
             print("Supposed value: " + str(value))
-            print("value: " + str(heuristic_controlOfCentre(move.board, colourChar, stage, 0)))
+            print("value: " + str(heuristic_controlOfCentre(move.board)))
             print("for: " + colourChar)
 
         if value > totalMaxVal:
@@ -37,7 +39,7 @@ def minimax(moves, stage, board, searchDepth, colourChar):
             totalBestMove = move.move
             if PRINTPROCESS:
                 move.board.printBoard()
-                print("value: " + str(heuristic_controlOfCentre(move.board, colourChar, stage, 0)))
+                print("value: " + str(heuristic_controlOfCentre(move.board)))
                 print("for: " + colourChar)
     #Return best move
     return totalBestMove
@@ -45,7 +47,7 @@ def minimax(moves, stage, board, searchDepth, colourChar):
 
 def maxVal(move, alpha, beta):
     if not move.children:
-        return move.value
+        return heuristic_controlOfCentre(move)
 
     maxVal = -math.inf
 
@@ -63,7 +65,7 @@ def maxVal(move, alpha, beta):
 
 def minVal(move, alpha, beta):
     if not move.children:
-        return move.value
+        return heuristic_controlOfCentre(move)
 
     minVal = math.inf
 

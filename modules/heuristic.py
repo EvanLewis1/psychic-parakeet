@@ -60,8 +60,12 @@ def heuristic(board, colour):
 
 
 #Returns the advantage(as a number/score) that the given colour has, can be negative to represent a disadvantage
-def heuristic_controlOfCentre(board, colour, stage, depth):
+def heuristic_controlOfCentre(move):
 
+    board = move.board
+    colour = move.player
+    stage = move.stage
+    depth = move.moveNum
 
     if depth%2 ==0:
         colour = Piece.Piece.opposite(colour)
