@@ -63,7 +63,7 @@ def heuristic(board, colour):
 def heuristic_controlOfCentre(board, colour, stage, depth):
 
 
-    if depth%2 ==1:
+    if depth%2 ==0:
         colour = Piece.Piece.opposite(colour)
 
     #Victory if opponent has two or less pieces

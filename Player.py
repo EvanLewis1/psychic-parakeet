@@ -65,11 +65,12 @@ class Player:
         #Get all possible moves
         possibleMoves, numMoves = findMoves.possibleMoves(self.board, self.colourChar, self.stage)
 
+        possibleMoves.reverse()
         if numMoves > 0:
 
             #Once moving phase has begun, use minimax to find best moves
             if self.colourChar == WHITE or True:
-                move = minimaxRecursive.minimax(possibleMoves, self.stage, self.board, 2, self.colourChar)
+                move = minimaxRecursive.minimax(possibleMoves, self.stage, self.board, 3, self.colourChar)
             else:
                 move = possibleMoves[random.randrange(0, numMoves)]
         else:

@@ -3,6 +3,8 @@
 # Based on pseudocode from AIMA textbook website as stated in part B spec
 # http://aima.cs.berkeley.edu/algorithms.pdf
 
+PRINTPROCESS = False
+
 import math
 from modules.models import MoveTree
 
@@ -11,7 +13,7 @@ from modules.heuristic import heuristic_controlOfCentre
 #Chooses best move
 def minimax(moves, stage, board, searchDepth, colourChar):
 
-    #Create MOve Tree
+    #Create Move Tree
     MovesTree = MoveTree.MoveTree(moves, stage, board, searchDepth, colourChar)
 
     root = MovesTree.root
@@ -23,11 +25,20 @@ def minimax(moves, stage, board, searchDepth, colourChar):
     #Find best move
     for move in root.children:
         value = minVal(move, -math.inf, math.inf)
+
+        if PRINTPROCESS:
+            move.board.printBoard()
+            print("Supposed value: " + str(value))
+            print("value: " + str(heuristic_controlOfCentre(move.board, colourChar, stage, 0)))
+            print("for: " + colourChar)
+
         if value > totalMaxVal:
             totalMaxVal = value
             totalBestMove = move.move
-            #print("value: " + str(heuristic_controlOfCentre(move.board, colourChar, stage, 0)))
-
+            if PRINTPROCESS:
+                move.board.printBoard()
+                print("value: " + str(heuristic_controlOfCentre(move.board, colourChar, stage, 0)))
+                print("for: " + colourChar)
     #Return best move
     return totalBestMove
 

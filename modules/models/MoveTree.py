@@ -51,12 +51,12 @@ class MoveTree:
         # Root of the tree
         self.root = None
 
-        self.initiateBuildTree(moves, stage, board, depth, colourChar)
+        self.initiateBuildTree(moves, stage, board, depth, Piece.Piece.opposite(colourChar))
 
     def initiateBuildTree(self, moves, stage, board, depth, colourChar):
         self.root = Node(colourChar, 0)
 
-        self.root.board = board
+        self.root.board = Board(board.currentState)
 
         self.buildTree(moves, self.root, stage, self.root.board, depth)
 
@@ -76,11 +76,18 @@ class MoveTree:
 
             if node.moveNum >= depth:
                 # Uses heuristic to give value
-                node.value = heuristic.heuristic_controlOfCentre(node.board, Piece.Piece.opposite(parent.player), stage, depth)
+                node.value = heuristic.heuristic_controlOfCentre(node.board, node.player, stage, depth)
+                # if node.value < -10:
+                #     print("FAIL")
+                #     print(node.parent.player)
+                #     print(node.player)
+                #     node.board.printBoard()
+                #     node.parent.board.printBoard()
+
                 return
 
         for child in parent.children:
-            newMoves = findMoves.possibleMoves(child.board, child.player, stage)[0]
-            self.buildTree(newMoves, child, stage, child.parent.board, depth)
+            newMoves = findMoves.possibleMoves(child.board, parent.player, stage)[0]
+            self.buildTree(newMoves, child, stage, parent.board, depth)
 
         return
