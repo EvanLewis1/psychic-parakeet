@@ -31,7 +31,7 @@ def minimax(moves, stage, board, searchDepth, colourChar):
         if PRINTPROCESS:
             move.board.printBoard()
             print("Supposed value: " + str(value))
-            print("value: " + str(heuristic_controlOfCentre(move.board)))
+            print("value: " + str(heuristic_controlOfCentre(move)))
             print("for: " + colourChar)
 
         if value > totalMaxVal:
@@ -39,7 +39,7 @@ def minimax(moves, stage, board, searchDepth, colourChar):
             totalBestMove = move.move
             if PRINTPROCESS:
                 move.board.printBoard()
-                print("value: " + str(heuristic_controlOfCentre(move.board)))
+                print("value: " + str(heuristic_controlOfCentre(move)))
                 print("for: " + colourChar)
     #Return best move
     return totalBestMove

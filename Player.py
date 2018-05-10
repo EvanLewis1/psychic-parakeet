@@ -65,7 +65,6 @@ class Player:
         #Get all possible moves
         possibleMoves, numMoves = findMoves.possibleMoves(self.board, self.colourChar, self.stage)
 
-        possibleMoves.reverse()
         if numMoves > 0:
 
             #Once moving phase has begun, use minimax to find best moves

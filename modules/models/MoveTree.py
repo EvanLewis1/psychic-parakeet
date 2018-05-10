@@ -1,16 +1,9 @@
 # Class that represents the move tree and move nodes of Backstab
 # Nick Conte and Evan Lewis
 
-
-from random import *
-from copy import deepcopy
-
 from modules.models.Board2 import Board
 from modules import findMoves
 from modules.models import Piece
-from modules.models.Rules import *
-from modules import heuristic
-
 
 
 class Node:
@@ -31,9 +24,6 @@ class Node:
         # Count of moves
         self.moveNum = movenum
 
-        # Parent node
-        self.parent = parent
-
         # Children nodes
         self.children = []
 
@@ -45,6 +35,7 @@ class Node:
         print(self.move)
 
 
+#Tree of possible move sequences
 class MoveTree:
     def __init__(self, moves, stage, board, depth, colourChar):
 
@@ -67,9 +58,7 @@ class MoveTree:
             node = Node(Piece.Piece.opposite(parent.player), move, board)
 
             node.moveNum = parent.moveNum + 1
-            node.parent = parent
             node.stage = stage
-
 
             node.board = Board(parent.board.currentState)#deepcopy(parent.board)
             node.board.applyMove(move, stage, node.player)
@@ -79,12 +68,6 @@ class MoveTree:
             if node.moveNum >= depth:
                 # Uses heuristic to give value
                 #node.value = heuristic.heuristic_controlOfCentre(node.board, node.player, stage, depth)
-                # if node.value < -10:
-                #     print("FAIL")
-                #     print(node.parent.player)
-                #     print(node.player)
-                #     node.board.printBoard()
-                #     node.parent.board.printBoard()
 
                 return
 
