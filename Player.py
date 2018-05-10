@@ -11,12 +11,12 @@ from modules.models.Rules import *
 from modules import minimaxRecursive
 from modules import minimaxRecursive
 
-
+from modules.heuristic import heuristic_controlOfCentre
 class Player:
     def __init__(self, colour):
 
         #Print the thought process of program
-        self.PRINTPROCESS = False
+        self.PRINTPROCESS = True
 
         #Playing colour
         self.colour = colour
@@ -68,7 +68,7 @@ class Player:
         if numMoves > 0:
 
             #Once moving phase has begun, use minimax to find best moves
-            if self.stage > 0:
+            if self.colourChar == WHITE:
                 move = minimaxRecursive.minimax(possibleMoves, self.stage, self.board, 2, self.colourChar)
             else:
                 move = possibleMoves[random.randrange(0, numMoves)]
@@ -80,12 +80,14 @@ class Player:
             print("Play " + str(move))
             print("Going from ")
             self.board.printBoard()
+            print(heuristic_controlOfCentre(self.board, self.colourChar, self.stage))
             print("To")
 
         # Apply move to board representation
         self.board.applyMove(move, self.stage, self.colourChar)
         if self.PRINTPROCESS:
             self.board.printBoard()
+            print(heuristic_controlOfCentre(self.board, self.colourChar, self.stage))
 
         # Count the turn
         self.nextTurn()

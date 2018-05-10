@@ -97,7 +97,7 @@ class Piece:
 
     def distFromCentre(self):
         columnDist = min(abs(self.pos[0]-3), abs(self.pos[0]-4))
-        rowDist = min(abs(self.pos[1]-3), abs(self.pos[1]-4))
+        rowDist    = min(abs(self.pos[1]-3), abs(self.pos[1]-4))
 
         return rowDist + columnDist
 

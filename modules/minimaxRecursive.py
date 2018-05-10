@@ -6,22 +6,31 @@
 import math
 from modules.models import MoveTree
 
-
+#Chooses best move
 def minimax(moves, stage, board, searchDepth, colourChar):
 
+    #Create MOve Tree
     MovesTree = MoveTree.MoveTree(moves, stage, board, searchDepth, colourChar)
 
     root = MovesTree.root
 
+
     totalMaxVal = -math.inf
     totalBestMove = None
 
+    #Find best move
     for move in root.children:
         value = minVal(move, -math.inf, math.inf)
+        # print("value: \n\n\n")
+        # print(value)
+
         if value > totalMaxVal:
+            # print("VALUE: \n\n\n")
+            # print(value)
             totalMaxVal = value
             totalBestMove = move.move
 
+    #Return best move
     return totalBestMove
 
 

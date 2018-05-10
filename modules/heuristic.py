@@ -1,6 +1,7 @@
 from modules.models.Rules import *
 from random import *
 from modules.models import Piece
+from modules.models import Rules
 
 
 # Creates a value for a given board state
@@ -59,22 +60,22 @@ def heuristic(board, colour):
 
 
 #Returns the advantage(as a number/score) that the given colour has, can be negative to represent a disadvantage
-def heuristic_controlOfCentre(board, colour):
+def heuristic_controlOfCentre(board, colour, stage):
 
     #Victory if opponent has two or less pieces
-    if len(board.colourPiecesInfo(Piece.Piece.opposite(colour))) < 3:
+    if len(board.colourPiecesInfo(Piece.Piece.opposite(colour))) < 3 and stage > PLACING:
         return 1000
 
 
     myBoardPower = 0
     myPieces = board.colourPiecesInfo(colour)
-    for piece in myPieces:
-        myBoardPower += PIECEWORTH - piece.distFromCentre()
+    for myPiece in myPieces:
+        myBoardPower += PIECEWORTH - myPiece.distFromCentre()
 
     oppBoardPower = 0
     oppPieces = board.colourPiecesInfo(Piece.Piece.opposite(colour))
-    for piece in oppPieces:
-        oppBoardPower += PIECEWORTH - piece.distFromCentre()
+    for oppPiece in oppPieces:
+        oppBoardPower += PIECEWORTH - oppPiece.distFromCentre()
 
 
     advantage = myBoardPower - oppBoardPower
