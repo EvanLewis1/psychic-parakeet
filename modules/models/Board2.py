@@ -120,9 +120,24 @@ class Board:
                     self.currentState[column][row] = OUTOFBOUNDS
 
         # Create new corners
-        self.currentState[amount][boardSize - amount-1] = CORNER
-        self.currentState[amount][amount] = CORNER
-        self.currentState[boardSize - amount -1][boardSize - amount -1] = CORNER
-        self.currentState[boardSize - amount -1][amount] = CORNER
 
+
+        #Wipe Pieces
+        self.currentState[amount][boardSize - amount-1] = EMPTY
+        self.currentState[amount][amount] = EMPTY
+        self.currentState[boardSize - amount -1][boardSize - amount -1] = EMPTY
+        self.currentState[boardSize - amount -1][amount] = EMPTY
+
+
+        # TopLeft
+        self.currentState[amount][amount] = CORNER
+        self.wipeDeadPieces(WHITE, True)
+        # BottomLeft
+        self.currentState[amount][boardSize - amount-1] = CORNER
+        self.wipeDeadPieces(WHITE, True)
+        # BottomRight
+        self.currentState[boardSize - amount -1][boardSize - amount -1] = CORNER
+        self.wipeDeadPieces(WHITE, True)
+        # TopRight
+        self.currentState[boardSize - amount -1][amount] = CORNER
         self.wipeDeadPieces(WHITE, True)
