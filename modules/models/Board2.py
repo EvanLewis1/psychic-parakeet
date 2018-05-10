@@ -12,11 +12,21 @@ class Board:
 
         if board:
             self.currentState = []
+
             for x in range(0, boardSize):
                 row = []
                 for y in range(0, boardSize):
+
                     row.append(board[x][y])
                 self.currentState.append(row)
+
+
+            for x in range(0, boardSize):
+                for y in range(0, boardSize):
+                    if self.currentState[x][y] != board[x][y]:
+                        print("ERROR not same")
+                        exit(0)
+
         else:
             self.newBoard()
 
@@ -66,6 +76,9 @@ class Board:
         else:
             # Get piece's colour
             colour = self.currentState[move[0][0]][move[0][1]]
+            if colour == EMPTY:
+                print("Error move is incorrect")
+                exit(0)
 
             # Remove piece from original position
             self.currentState[move[0][0]][move[0][1]] = EMPTY

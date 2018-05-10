@@ -69,14 +69,14 @@ class MoveTree:
             node.moveNum = parent.moveNum + 1
             node.parent = parent
 
-            node.board = Board(node.board.currentState)#deepcopy(parent.board)
+            node.board = Board(parent.board.currentState)#deepcopy(parent.board)
             node.board.applyMove(move, stage, node.player)
 
             parent.children.append(node)
 
             if node.moveNum >= depth:
                 # Uses heuristic to give value
-                node.value = heuristic.heuristic_controlOfCentre(node.board, Piece.Piece.opposite(parent.player), stage)
+                node.value = heuristic.heuristic_controlOfCentre(node.board, Piece.Piece.opposite(parent.player), stage, depth)
                 return
 
         for child in parent.children:

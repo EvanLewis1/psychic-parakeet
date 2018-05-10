@@ -68,7 +68,7 @@ class Player:
         if numMoves > 0:
 
             #Once moving phase has begun, use minimax to find best moves
-            if self.stage > 0:
+            if self.colourChar == WHITE or True:
                 move = minimaxRecursive.minimax(possibleMoves, self.stage, self.board, 2, self.colourChar)
             else:
                 move = possibleMoves[random.randrange(0, numMoves)]

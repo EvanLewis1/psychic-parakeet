@@ -6,6 +6,8 @@
 import math
 from modules.models import MoveTree
 
+from modules.heuristic import heuristic_controlOfCentre
+
 #Chooses best move
 def minimax(moves, stage, board, searchDepth, colourChar):
 
@@ -24,6 +26,7 @@ def minimax(moves, stage, board, searchDepth, colourChar):
         if value > totalMaxVal:
             totalMaxVal = value
             totalBestMove = move.move
+            #print("value: " + str(heuristic_controlOfCentre(move.board, colourChar, stage, 0)))
 
     #Return best move
     return totalBestMove
