@@ -5,6 +5,11 @@ Nick Conte & Evan Lewis
 ---classes you have created and used.
 
 
+on player.action()
+1. player calls find moves
+2. Player sets up MoveTree
+3  player uses minimax and alpha beta pruning to get next move
+
 ---• Describe the approach taken by your game playing program for deciding on which
 ---actions to take, in terms of
 ---o your search strategy,
@@ -17,12 +22,9 @@ This is because if you control the centre of the board you can defeat the oppone
 ---o any creative techniques that you have applied, for example, machine
 ---learning, search strategy optimisations, specialised data structures, other
 ---optimisations, or any search algorithms not discussed in the lectures.
+-minmax algorithm
+-alpha beta pruning
 
-
-
----• If you have applied machine learning, you should discuss the learning techniques
----methodology you followed for training the agent, and the intuition behind using that
----specific technique.
 
 
 ---• Include any other creative aspects of your solution, and any additional comments
