@@ -16,7 +16,7 @@ class Player:
     def __init__(self, colour):
 
         #Print the thought process of program
-        self.PRINTPROCESS = True
+        self.PRINTPROCESS = False
 
         #Playing colour
         self.colour = colour
@@ -68,7 +68,7 @@ class Player:
         if numMoves > 0:
 
             #Once moving phase has begun, use minimax to find best moves
-            if self.colourChar == WHITE:
+            if self.stage > 0:
                 move = minimaxRecursive.minimax(possibleMoves, self.stage, self.board, 2, self.colourChar)
             else:
                 move = possibleMoves[random.randrange(0, numMoves)]

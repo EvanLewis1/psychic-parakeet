@@ -8,9 +8,17 @@ from modules.models.Rules import *
 
 class Board:
 
-    def __init__(self):
+    def __init__(self, board = False):
 
-        self.newBoard()
+        if board:
+            self.currentState = []
+            for x in range(0, boardSize):
+                row = []
+                for y in range(0, boardSize):
+                    row.append(board[x][y])
+                self.currentState.append(row)
+        else:
+            self.newBoard()
 
     def newBoard(self):
         STARTINGSTATE = []

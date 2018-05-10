@@ -5,7 +5,7 @@
 from random import *
 from copy import deepcopy
 
-
+from modules.models.Board2 import Board
 from modules import findMoves
 from modules.models import Piece
 from modules.models.Rules import *
@@ -69,7 +69,7 @@ class MoveTree:
             node.moveNum = parent.moveNum + 1
             node.parent = parent
 
-            node.board = deepcopy(parent.board)
+            node.board = Board(node.board.currentState)#deepcopy(parent.board)
             node.board.applyMove(move, stage, node.player)
 
             parent.children.append(node)

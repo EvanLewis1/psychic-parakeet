@@ -21,12 +21,7 @@ def minimax(moves, stage, board, searchDepth, colourChar):
     #Find best move
     for move in root.children:
         value = minVal(move, -math.inf, math.inf)
-        # print("value: \n\n\n")
-        # print(value)
-
         if value > totalMaxVal:
-            # print("VALUE: \n\n\n")
-            # print(value)
             totalMaxVal = value
             totalBestMove = move.move
 
